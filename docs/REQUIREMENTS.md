@@ -87,7 +87,7 @@ cash is entered with an on-screen keypad), no tiny links or desktop-only interac
 | Choice | Decision | Reason |
 |---|---|---|
 | Application type | Web app (HTML, CSS, plain JavaScript) | Runs in any browser or full-screen on a touch monitor; no install or build step; easy for every member to read and explain |
-| Product data | Hard-coded list in `js/products.js` | Allowed by the exam; six products do not need a database |
+| Product data | Hard-coded list in `js/products.js` | Allowed by the exam; a 16-item menu does not need a database |
 | Transaction state | In-memory `appState` object (`js/state.js`) | One transaction at a time; cleared on New Transaction |
 | Transaction counter | Browser `localStorage` | Keeps transaction numbers unique even after a page reload |
 | Money | Integer centavos (e.g. 4500 = ₱45.00) | Avoids floating-point errors such as 0.1 + 0.2 = 0.30000000000000004 |
