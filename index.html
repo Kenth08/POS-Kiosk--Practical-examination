@@ -34,19 +34,60 @@
     <!-- Screen 2: Order / Payment Summary (Member B) -->
     <section class="screen" id="screen-summary" data-step="2">
       <h1 class="screen-title">Review your order</h1>
-      <p class="placeholder">Order Summary screen — to be built by Member B.</p>
+      <div id="summary-content" aria-live="polite"></div>
+      <div>
+        <button class="btn btn-secondary" id="summary-back" type="button">Back to order</button>
+        <button class="btn btn-primary" id="summary-continue" type="button">Continue to payment</button>
+      </div>
     </section>
 
     <!-- Screen 3: Payment Method (Member B) -->
     <section class="screen" id="screen-method" data-step="3">
       <h1 class="screen-title">How would you like to pay?</h1>
-      <p class="placeholder">Payment Method screen — to be built by Member B.</p>
+      <p id="method-total"></p>
+      <div>
+        <button class="btn btn-primary" type="button" data-payment-method="cash">Cash</button>
+        <button class="btn btn-secondary" type="button" data-payment-method="qr">QR Payment</button>
+        <button class="btn btn-secondary" type="button" data-payment-method="card">Credit / Debit Card</button>
+      </div>
+      <button class="btn btn-secondary" id="method-back" type="button">Back to order</button>
     </section>
 
     <!-- Screen 3a: Cash payment (Member B) -->
     <section class="screen" id="screen-cash" data-step="3">
       <h1 class="screen-title">Cash Payment</h1>
-      <p class="placeholder">Cash Payment screen — to be built by Member B.</p>
+      <p id="cash-total"></p>
+      <form id="cash-form" novalidate>
+        <label for="cash-amount">Amount paid</label>
+        <div>
+          <span aria-hidden="true">₱</span>
+          <input id="cash-amount" name="cash-amount" type="text" inputmode="decimal" autocomplete="off" readonly aria-describedby="cash-error">
+        </div>
+        <p id="cash-error" role="alert" aria-live="assertive"></p>
+        <div aria-label="Quick cash amounts">
+          <button class="btn btn-secondary" type="button" data-cash-quick="exact">Exact amount</button>
+          <button class="btn btn-secondary" type="button" data-cash-quick="100">₱100</button>
+          <button class="btn btn-secondary" type="button" data-cash-quick="500">₱500</button>
+          <button class="btn btn-secondary" type="button" data-cash-quick="1000">₱1,000</button>
+        </div>
+        <div aria-label="Cash keypad">
+          <button class="btn btn-secondary" type="button" data-cash-key="1">1</button>
+          <button class="btn btn-secondary" type="button" data-cash-key="2">2</button>
+          <button class="btn btn-secondary" type="button" data-cash-key="3">3</button>
+          <button class="btn btn-secondary" type="button" data-cash-key="4">4</button>
+          <button class="btn btn-secondary" type="button" data-cash-key="5">5</button>
+          <button class="btn btn-secondary" type="button" data-cash-key="6">6</button>
+          <button class="btn btn-secondary" type="button" data-cash-key="7">7</button>
+          <button class="btn btn-secondary" type="button" data-cash-key="8">8</button>
+          <button class="btn btn-secondary" type="button" data-cash-key="9">9</button>
+          <button class="btn btn-secondary" type="button" data-cash-key="clear">Clear</button>
+          <button class="btn btn-secondary" type="button" data-cash-key="0">0</button>
+          <button class="btn btn-secondary" type="button" data-cash-key=".">.</button>
+          <button class="btn btn-secondary" type="button" data-cash-key="backspace">Delete</button>
+        </div>
+        <button class="btn btn-primary" type="submit">Pay with cash</button>
+      </form>
+      <button class="btn btn-secondary" id="cash-back" type="button">Back to payment methods</button>
     </section>
 
     <!-- Screen 3b: QR payment (Member C) -->
