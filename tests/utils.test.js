@@ -1,7 +1,7 @@
 // Unit tests for shared helpers. Run with: npm test
 const test = require('node:test');
 const assert = require('node:assert');
-const { formatPeso, calculateChange } = require('../js/utils.js');
+const { formatPeso, calculateChange, formatTransactionNumber } = require('../js/utils.js');
 const { PRODUCTS } = require('../js/products.js');
 
 test('formatPeso converts centavos to a peso string', function () {
@@ -23,6 +23,12 @@ test('calculateChange accepts exact payment and rejects invalid or insufficient 
   assert.strictEqual(calculateChange(13999, 14000), null);
   assert.strictEqual(calculateChange(-1, 14000), null);
   assert.strictEqual(calculateChange(14000.5, 14000), null);
+});
+
+test('formatTransactionNumber uses the required TXN-YYYY-00001 format', function () {
+  assert.strictEqual(formatTransactionNumber(2026, 1), 'TXN-2026-00001');
+  assert.strictEqual(formatTransactionNumber(2026, 12), 'TXN-2026-00012');
+  assert.strictEqual(formatTransactionNumber(2026, 0), null);
 });
 
 test('catalog has at least six products, each with a name and a valid price', function () {

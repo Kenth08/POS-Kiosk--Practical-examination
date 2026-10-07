@@ -141,25 +141,48 @@
     <!-- Screen 3b: QR payment (Member C) -->
     <section class="screen" id="screen-qr" data-step="3">
       <h1 class="screen-title">QR Payment</h1>
-      <p class="placeholder">QR Payment screen — to be built by Member C.</p>
+      <p id="qr-total" class="payment-total">Total due: ₱0.00</p>
+      <div class="checkout-panel qr-panel">
+        <div class="qr-box" aria-label="QR payment placeholder">
+          <span>QR</span>
+        </div>
+        <p class="checkout-instruction">Scan the QR code using your supported payment application.</p>
+      </div>
+      <div class="screen-actions">
+        <button class="btn btn-secondary" id="qr-back" type="button">Back</button>
+        <button class="btn btn-primary" id="qr-confirm" type="button">Confirm Payment</button>
+      </div>
     </section>
 
     <!-- Screen 3c: Credit / Debit Card payment (Member C) -->
     <section class="screen" id="screen-card" data-step="3">
       <h1 class="screen-title">Credit / Debit Card</h1>
-      <p class="placeholder">Card Payment screen — to be built by Member C.</p>
+      <p id="card-total" class="payment-total">Total due: ₱0.00</p>
+      <div class="checkout-panel card-panel">
+        <div class="card-icon" aria-hidden="true">💳</div>
+        <p>Please tap, insert, or swipe your card.</p>
+        <p id="card-status" class="processing-status" aria-live="polite"></p>
+      </div>
+      <div class="screen-actions">
+        <button class="btn btn-secondary" id="card-back" type="button">Back</button>
+        <button class="btn btn-primary" id="card-process" type="button">Process Payment</button>
+      </div>
     </section>
 
     <!-- Screen 4: Payment Successful (Member C) -->
     <section class="screen" id="screen-success" data-step="4">
       <h1 class="screen-title">Payment Successful</h1>
-      <p class="placeholder">Payment Successful screen — to be built by Member C.</p>
+      <div id="success-content" class="success-card"></div>
+      <button class="btn btn-primary" id="success-receipt" type="button">View Receipt</button>
     </section>
 
     <!-- Screen 5: Receipt + New Transaction (Member C) -->
     <section class="screen" id="screen-receipt" data-step="4">
       <h1 class="screen-title">Receipt</h1>
-      <p class="placeholder">Receipt screen — to be built by Member C.</p>
+      <div id="receipt-content" class="receipt-card"></div>
+      <div class="screen-actions receipt-actions">
+        <button class="btn btn-primary" id="new-transaction" type="button">New Transaction</button>
+      </div>
     </section>
   </main>
 
