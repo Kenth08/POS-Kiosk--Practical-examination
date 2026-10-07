@@ -237,3 +237,32 @@ Entry template:
   cart, ₱100 rejected, blank rejected, ₱200 → change ₱60; no JS errors; `npm test` 11 pass.
   Screenshots saved in `docs/evidence/` (summary-screen, payment-method-screen, cash-insufficient).
 - What we changed and why: _(member to fill after review)_
+
+## AI-9 — Menu-style Item Selection from a second UI reference
+- Date: 2026-10-07
+- Member responsible: Repollo (M2) — Member A, branch `feature/item-selection`
+- Type: generation (UI + category filter feature)
+- Problem / context: The group picked a new reference: a food-ordering app layout (hero banner,
+  round category buttons, "Popular Items" cards with description and orange "+", flash-offer
+  banner, bottom navigation).
+- Prompt used: "before all that can you complete first the ui? make sure you copy this ui just
+  remove that is not important make it professionally" (reference image attached).
+- AI response (summary): Kept hero banner, category buttons (made them a working filter — an
+  optional enhancement in the exam), card layout with descriptions and "+" hint, and kept the
+  order panel beside the products (required by the exam). Removed favourite hearts, 20% flash offer,
+  bottom navigation, and Order Now / View All buttons. Images stay emoji (group decision, AI-6).
+- Code or files produced: `index.html` (hero, category bar, heading), `css/styles.css`,
+  `js/selection.js` (`categoryChipHTML`, `renderCategories`, `selectCategory`, new card markup),
+  `js/utils.js` (`getCategories`, `filterByCategory`), `js/products.js` (descriptions),
+  `tests/catalog.test.js` (4 tests).
+- Our evaluation:
+  - Flash offer removed on purpose: a 20% discount would change totals and fail instructor tests.
+  - The round "+" on each card is not a separate button (a button cannot contain a button); the
+    whole card adds the item, so touch targets stay large.
+  - `activeCategory` is kept in `selection.js`, not `appState`, because it is a screen setting,
+    not part of the transaction.
+- Verification / test results: `npm test` 15 pass. Headless-Edge check: Drinks → Coffee, Soft Drink,
+  Bottled Water; Snacks → Cookies, Chocolate; cart and ₱175 total unchanged while filtering; adding
+  while filtered works; instructor tests 2–6 still ₱175 / ₱220 / ₱175 / ₱140; summary matches; Back
+  keeps cart; no page errors. Screenshots in `docs/evidence/`.
+- What we changed and why: _(member to fill after review)_

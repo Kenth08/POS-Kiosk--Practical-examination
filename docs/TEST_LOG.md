@@ -33,3 +33,7 @@ Record each test when it is actually run. Result: PASS / FAIL (describe the prob
 | 2026-10-07 | Integration (A+B) | Instructor test 8: Cash ₱100 for ₱140 | Stays on Cash; "Insufficient payment. Please enter at least ₱140.00."; no payment saved | PASS (AI run) | AI; member to re-run |
 | 2026-10-07 | Integration (A+B) | Blank cash | "Enter a valid nonnegative amount." | PASS (AI run) | AI; member to re-run |
 | 2026-10-07 | Integration (A+B) | Instructor test 9: Cash ₱200 for ₱140 | change 6000 centavos (₱60.00); goes to Success screen (placeholder, Member C) | PASS (AI run) | AI; member to re-run |
+| 2026-10-07 | Menu UI | `npm test` | 15 pass (4 new catalog tests) | PASS (AI run) | AI; member to re-run |
+| 2026-10-07 | Menu UI | Tap Drinks / Snacks / All | Drinks: Coffee, Soft Drink, Bottled Water; Snacks: Cookies, Chocolate; All: 6 | PASS (AI run) | AI; member to re-run |
+| 2026-10-07 | Menu UI | Filter while Sandwich is in cart | Cart and total ₱175 unchanged | PASS (AI run) | AI; member to re-run |
+| 2026-10-07 | Menu UI | Regression: instructor tests 2–6 | ₱175 / ₱220 / ₱175 / ₱140; summary matches; Back keeps cart | PASS (AI run) | AI; member to re-run |
