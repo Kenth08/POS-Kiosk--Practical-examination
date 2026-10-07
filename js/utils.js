@@ -58,10 +58,19 @@ function calculateChange(amountPaid, total) {
   return amountPaid - total;
 }
 
+// Creates a transaction reference in a pure format: TXN-2026-00001.
+function formatTransactionNumber(year, sequence) {
+  if (!Number.isInteger(year) || !Number.isInteger(sequence) || sequence < 1) {
+    return null;
+  }
+
+  return 'TXN-' + String(year) + '-' + String(sequence).padStart(5, '0');
+}
+
 // Lets Node tests load this file; ignored in the browser.
 if (typeof module !== 'undefined') {
   module.exports = {
     formatPeso, calculateSubtotal, calculateTotal, countItems,
-    getCategories, filterByCategory, calculateChange,
+    getCategories, filterByCategory, calculateChange, formatTransactionNumber,
   };
 }
