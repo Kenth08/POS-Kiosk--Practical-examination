@@ -134,9 +134,40 @@ function renderCart() {
 
 // Redraws everything on the Item Selection screen.
 // Also used by other screens after the cart changes (e.g. New Transaction reset).
+// Redrawing replaces the buttons, so the focused button is remembered and
+// re-focused afterwards (otherwise keyboard users lose their place).
 function refreshSelection() {
+  const focusSelector = getFocusedButtonSelector();
   renderProducts();
   renderCart();
+  restoreFocus(focusSelector);
+}
+
+// Describes the focused card / cart button as a CSS selector, or null.
+function getFocusedButtonSelector() {
+  const focused = document.activeElement;
+  if (!focused || !focused.closest) return null;
+
+  const card = focused.closest('.product-card');
+  if (card) {
+    return '.product-card[data-product-id="' + card.dataset.productId + '"]';
+  }
+
+  const cartButton = focused.closest('.cart-item button[data-action]');
+  if (cartButton) {
+    const productId = cartButton.closest('.cart-item').dataset.productId;
+    return '.cart-item[data-product-id="' + productId + '"] [data-action="' + cartButton.dataset.action + '"]';
+  }
+
+  return null;
+}
+
+// Focuses the new copy of the button. If the item was removed, there is
+// nothing to focus, so nothing happens.
+function restoreFocus(selector) {
+  if (!selector) return;
+  const element = document.querySelector(selector);
+  if (element) element.focus();
 }
 
 // ---------- Button handling ----------
