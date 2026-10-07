@@ -104,3 +104,20 @@ cash is entered with an on-screen keypad), no tiny links or desktop-only interac
 | QR, Card, Success, Receipt, Reset | Member C | `js/checkout.js` |
 
 Member names and branches are recorded in [MEMBER_REGISTER.md](MEMBER_REGISTER.md).
+
+## 10. Planned optional enhancements (after the required flow works)
+
+The group chose a full POS-style UI reference (sidebar, order list, category tabs, search,
+order panel, order summary). It will be built **only after** the required 7-step flow is merged
+and working, so the app is never left half-finished. Product images stay hard-coded (emoji icons).
+
+| Enhancement (from reference) | Exam optional enhancement | Rule we follow |
+|---|---|---|
+| Category tabs, search menu | Product categories; search | Filtering only — never hides items already in the cart |
+| Announcement banner | — | Dismissable message, no effect on the order |
+| Order panel: Order ID, customer name, table | — | Customer name optional; table chosen by tapping (no required typing) |
+| Order Summary: Sub Total, Service fee, Discount | Discounts (Senior / PWD / Student) | **Service fee always ₱0.00**; discount defaults to **None**, so Total = sum of subtotals (instructor tests ₱175 / ₱220 / ₱140 still pass) |
+| Order List with statuses | Transaction history | Built from completed transactions |
+| Sidebar: Dashboard, Transactions, Statistics, Products, Categories, Inventory, Settings | Cashier/Admin login; sales reports; product management; inventory; dark/light theme | **Only after cashier login.** Customers see only the kiosk ordering flow |
+
+Not copied from the reference: `$` currency (we use ₱).
