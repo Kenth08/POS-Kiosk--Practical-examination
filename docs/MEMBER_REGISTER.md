@@ -16,14 +16,15 @@ Fill in only real, verifiable information (actual branch names, PR numbers, comm
 
 | ID | Member name | GitHub username | Feature role | Feature branch(es) |
 |---|---|---|---|---|
-| M1 | Pacia | | | |
-| M2 | Repollo | Kenth08 | | |
-| M3 | Guerra | | | |
+| M1 | Pacia | kurtpacia-bit | B — Order Summary, Payment Method, Cash | _(Pacia to fill)_ |
+| M2 | Repollo | Kenth08 | A — Item Selection and cart; project setup | `setup/project-skeleton` (merged, PR #1), `feature/item-selection` |
+| M3 | Guerra | | C — QR/Card, Success, Receipt, Reset | |
 
 ## Contributions and pull requests
 
 | ID | Implemented feature / task | Commit SHA(s) | PR # | Reviewer | Merge status |
 |---|---|---|---|---|---|
 | M1 | | | | | |
-| M2 | | | | | |
+| M2 | Project skeleton (setup) | `a29fa4c` | #1 | Merged by kurtpacia-bit; no formal Approve review recorded | Merged |
+| M2 | Item Selection and cart | `296355d`, `86c3496` | _(pending)_ | | |
 | M3 | | | | | |

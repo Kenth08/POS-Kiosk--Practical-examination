@@ -72,3 +72,33 @@ Entry template:
   on the toast. Re-checked: no horizontal scrolling, toast readable.
 - What we changed and why: _(member to fill after review)_
 - Verification / test results: _(record results from docs/TEST_LOG.md)_
+
+## AI-3 — Item Selection screen and cart (Task 3)
+- Date: 2026-10-07
+- Member responsible: Repollo (M2) — Member A, branch `feature/item-selection`
+- Type: generation
+- Problem / context: Build Screen 1: six tappable product cards, a cart with + / − / remove,
+  automatic subtotals and total, feedback messages, and a Proceed to Payment button.
+- Prompt used: "A, and you pick" (chose role A and let the AI pick the branch name), then
+  "continue the project" — AI was asked to perform Task 3 from the roadmap.
+- AI response (summary): Built it in two stages.
+  Stage 1 (interface): card grid and cart panel markup/CSS; `renderProducts()` and `renderCart()`.
+  Stage 2 (logic): `addToCart()`, `changeQuantity()`, `removeFromCart()`, `refreshSelection()`,
+  event delegation in `initSelection()`; pure functions `calculateSubtotal()`,
+  `calculateTotal()`, `countItems()` in `utils.js` with 6 unit tests.
+- Code or files produced: `index.html` (selection section), `css/styles.css`, `js/selection.js`,
+  `js/utils.js`, `js/app.js`, `tests/cart.test.js`. Commits `296355d`, `86c3496`.
+- Our evaluation:
+  - Matches exam: ≥6 products with name + price, tap to add, quantity controls, removal,
+    automatic subtotal/total, cart beside products, Proceed button.
+  - Design decision: pressing − at quantity 1 removes the item (instead of leaving a 0 line),
+    so quantity can never be 0 or negative.
+  - Added a 99-per-item limit with "Invalid quantity" feedback (the exam lists
+    "Invalid quantity" as an example message). Inventory/stock is NOT implemented (optional).
+  - Product categories filter from the sample UI was left out — optional, not required.
+  - Known limitation: on phone-width screens the cart is below the products (scroll down).
+    The kiosk target is a large touch screen, where the cart is beside the products.
+  - _(member to add own evaluation)_
+- What we changed and why: _(member to fill after review)_
+- Verification / test results: `npm test` 9 pass, 0 fail. Browser click-tests of instructor
+  tests 1–4 and 6 all matched expected values (see TEST_LOG.md).
