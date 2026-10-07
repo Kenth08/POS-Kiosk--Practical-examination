@@ -312,3 +312,24 @@ Entry template:
 - Our evaluation: I read the generated code and ran the app in a browser, trying the payment flow; I do not remember the exact steps I clicked. I made no major changes to the generated implementation. A later observation was that the receipt displays the unit price twice, for example `Coffee (2 × ₱45.00) ₱45.00 ₱90.00`.
 - What we changed and why: Added the Member C payment and checkout flow, transaction-number formatter and test, and related screen markup and styles. QR and card payments record the order total as paid with ₱0 change; the card flow simulates processing; and the reset clears the current transaction so the kiosk is ready for another customer.
 - Verification / test results: My exact browser clicks and results are not recorded. The group's final integration check on `main` commit `050aa5b` recorded `npm test`: 16 pass, 0 fail, including `formatTransactionNumber()` results `TXN-2026-00001`, `TXN-2026-00012`, and `null` for 0. The group check also recorded QR confirmation and card payment (including Back cancelling processing and processing completing after about 2 seconds), payment/receipt details, New Transaction clearing the cart/payment/transaction, and four distinct transaction numbers (`TXN-2026-00001` through `TXN-2026-00004`). The duplicate unit price on the receipt was reported as a known issue.
+
+## AI-11 — App logo (browser tab icon)
+- Date: 2026-10-07
+- Member responsible: Repollo (M2), branch `feature/app-logo`
+- Type: generation (design asset)
+- Problem / context: The browser tab showed a blank default icon; the group wanted a logo that shows
+  in the tab, bookmarks, and history.
+- Prompt used: "and also generate or create a logo so that if search the site or webapp it will show
+  in the browser"
+- AI response (summary): Drew `images/favicon.svg` by hand in SVG (orange rounded tile in the app's
+  accent color with a white smiling shopping bag), rendered PNG copies from it (`favicon-32.png`
+  fallback, `apple-touch-icon.png` 180×180 for phone home screens), and linked them in `index.html`
+  with a `theme-color` and page `description`.
+- Follow-up request: "also change the logo of the website in the upper left" — the header's round
+  "CS" badge was replaced with the same `favicon.svg` image so the brand is consistent
+  (`docs/evidence/header-logo.png`).
+- Our evaluation: Original artwork (no downloaded or copyrighted images). Shape kept simple so it is
+  recognizable at 16 px. Checked on light and dark tab bars (`docs/evidence/logo-preview.png`).
+- Verification / test results: All three icon links load in the page (HTTP 200, correct types);
+  page title "Campus Store POS Kiosk"; `npm test` 16 pass; no page errors.
+- What we changed and why: Kept the AI's logo design; after seeing it in the tab I also asked for it to replace the "CS" badge in the header so the brand matches. [drafted with AI from our session, reviewed by Repollo]

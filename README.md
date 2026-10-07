@@ -69,6 +69,7 @@ npm test
 ```
 index.html              all screens (only one is visible at a time)
 css/styles.css          shared design: colors, buttons, and each screen's layout
+images/                 app logo: favicon.svg (browser tab), favicon-32.png, apple-touch-icon.png
 js/products.js          product catalog (prices in centavos)
 js/utils.js             pure helpers: formatPeso, subtotal/total, item count, categories, change, transaction number
 js/state.js             shared state for the current transaction (cart, payment, transaction)
