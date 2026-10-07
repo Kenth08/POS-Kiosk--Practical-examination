@@ -27,3 +27,9 @@ Record each test when it is actually run. Result: PASS / FAIL (describe the prob
 | 2026-10-07 | Task 7 | Regression: instructor tests 2–6, − at 1, focus kept, 99 limit | Same results as before refactor | PASS (AI run) | AI; member to re-run |
 | 2026-10-07 | Redesign | Screenshots at 1280×800, 1024×768, 390×844 | Layout fits; no sideways scroll; cart beside products on kiosk sizes | PASS (AI run) — see docs/evidence/ | AI; member to re-check |
 | 2026-10-07 | Redesign | Regression: instructor tests 1–6, − at 1, focus, 99 limit | Same results as before redesign | PASS (AI run) | AI; member to re-run |
+| 2026-10-07 | Integration (A+B) | After merging main: `npm test` | 11 pass (A: 9, B: 2) | PASS (AI run) | AI; member to re-run |
+| 2026-10-07 | Integration (A+B) | Instructor test 5–6: Proceed → Summary → Back | Summary shows Coffee ×2 ₱90, Sandwich ×1 ₱50, total ₱140; Back keeps cart | PASS (AI run) | AI; member to re-run |
+| 2026-10-07 | Integration (A+B) | Instructor test 7: Continue to payment | Method screen "Total due: ₱140.00", 3 options | PASS (AI run) | AI; member to re-run |
+| 2026-10-07 | Integration (A+B) | Instructor test 8: Cash ₱100 for ₱140 | Stays on Cash; "Insufficient payment. Please enter at least ₱140.00."; no payment saved | PASS (AI run) | AI; member to re-run |
+| 2026-10-07 | Integration (A+B) | Blank cash | "Enter a valid nonnegative amount." | PASS (AI run) | AI; member to re-run |
+| 2026-10-07 | Integration (A+B) | Instructor test 9: Cash ₱200 for ₱140 | change 6000 centavos (₱60.00); goes to Success screen (placeholder, Member C) | PASS (AI run) | AI; member to re-run |
