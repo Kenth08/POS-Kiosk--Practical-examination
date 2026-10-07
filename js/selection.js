@@ -90,24 +90,28 @@ function productCardHTML(product) {
         <span class="product-name">${product.name}</span>
         <span class="product-price">${formatPeso(product.price)}</span>
       </span>
+      <span class="product-category">${product.category}</span>
     </button>`;
 }
 
-// HTML for one cart line: name, unit price, subtotal, and − / + / remove buttons.
+// HTML for one cart line: icon, name, unit price, − / + / remove buttons, and subtotal.
 function cartItemHTML(item) {
+  const product = PRODUCTS.find(function (p) { return p.id === item.productId; });
+
   return `
     <li class="cart-item" data-product-id="${item.productId}">
-      <div>
+      <span class="cart-thumb" aria-hidden="true">${product ? product.icon : ''}</span>
+      <div class="cart-item-info">
         <div class="cart-item-name">${item.name}</div>
         <div class="cart-item-price">${formatPeso(item.price)} each</div>
       </div>
-      <div class="cart-item-subtotal">${formatPeso(calculateSubtotal(item.price, item.quantity))}</div>
+      <button type="button" class="btn-icon btn-remove" data-action="remove" aria-label="Remove ${item.name}">🗑</button>
       <div class="qty-controls">
         <button type="button" class="btn-icon btn-minus" data-action="decrease" aria-label="Decrease ${item.name}">−</button>
         <span class="qty-value">${item.quantity}</span>
         <button type="button" class="btn-icon btn-plus" data-action="increase" aria-label="Increase ${item.name}">+</button>
-        <button type="button" class="btn-icon btn-remove" data-action="remove" aria-label="Remove ${item.name}">🗑</button>
       </div>
+      <div class="cart-item-subtotal">${formatPeso(calculateSubtotal(item.price, item.quantity))}</div>
     </li>`;
 }
 
@@ -128,6 +132,7 @@ function renderCart() {
 
   const itemCount = countItems(appState.cart);
   document.getElementById('cart-count').textContent = itemCount + (itemCount === 1 ? ' item' : ' items');
+  document.getElementById('summary-items').textContent = itemCount;
   document.getElementById('cart-total').textContent = formatPeso(calculateTotal(appState.cart));
   document.getElementById('btn-proceed').disabled = appState.cart.length === 0;
 }

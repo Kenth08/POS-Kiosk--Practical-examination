@@ -42,8 +42,13 @@
           <!-- Cart lines are created by renderCart() in selection.js -->
           <ul class="cart-items" id="cart-items"></ul>
           <div class="cart-footer">
+            <h3 class="summary-title">Order Summary</h3>
+            <div class="summary-row">
+              <span>Items</span>
+              <span id="summary-items">0</span>
+            </div>
             <div class="cart-total-row">
-              <span>Total</span>
+              <span>Total Amount</span>
               <strong id="cart-total">₱0.00</strong>
             </div>
             <button class="btn btn-primary btn-block" id="btn-proceed" type="button">
