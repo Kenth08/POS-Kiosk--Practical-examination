@@ -217,3 +217,23 @@ Entry template:
   passed for `js/payment.js` and `js/utils.js`; editor diagnostics found no errors. Browser flow
   check confirmed ₱100 against a ₱140 total stays on cash with an insufficient-payment message,
   and exact payment advances with `change: 0`.
+
+## AI-8 — Shared design applied to Member B's screens
+- Date: 2026-10-07
+- Member responsible: Repollo (M2) — owner of the shared stylesheet and UI redesign (AI-6)
+- Type: generation (styling)
+- Problem / context: After merging Member B's screens, the Summary, Payment Method and Cash screens
+  worked correctly but had no layout styling (plain table, tiny input, keypad on one row, error
+  not red). The group wanted the whole app to look professional and consistent.
+- Prompt used: "its all okay but the ui is so not professional"
+- AI response (summary): Added CSS for the three screens that targets Member B's existing ids and
+  data attributes, so Member B's `payment.js` and HTML did not change (keeps authorship clear).
+  Payment tiles get their icon and description from CSS `::before` / `::after`.
+- Our evaluation: CSS-only approach avoids editing another member's files. Trade-off: the tile
+  descriptions live in CSS, so screen readers may not read them; the button labels (Cash /
+  QR Payment / Credit / Debit Card) are still read correctly.
+  The earlier review request to Member B about styling is now covered by this change.
+- Verification / test results: Integration flow re-run in headless Edge — summary ₱140, Back keeps
+  cart, ₱100 rejected, blank rejected, ₱200 → change ₱60; no JS errors; `npm test` 11 pass.
+  Screenshots saved in `docs/evidence/` (summary-screen, payment-method-screen, cash-insufficient).
+- What we changed and why: _(member to fill after review)_
