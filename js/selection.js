@@ -20,7 +20,7 @@ function findCartItem(productId) {
   });
 }
 
-// Tapping a product card: add it, or add one more if already in the cart.
+// Card "+" button: add the product, or add one more if already in the cart.
 function addToCart(productId) {
   const product = PRODUCTS.find(function (p) { return p.id === productId; });
   if (!product) {
@@ -43,6 +43,7 @@ function addToCart(productId) {
   }
 
   showToast('Product added — ' + product.name);
+  scrollCartItemIntoView(productId);
 }
 
 // + / − buttons. delta is +1 or -1.
@@ -67,7 +68,7 @@ function changeQuantity(productId, delta) {
   return true;
 }
 
-// 🗑 button (or − at quantity 1): take the item out of the cart.
+// × button (or − at quantity 1): take the item out of the cart.
 function removeFromCart(productId) {
   const item = findCartItem(productId);
   if (!item) return;
@@ -82,26 +83,31 @@ function removeFromCart(productId) {
 
 // ---------- Drawing the screen ----------
 
-// HTML for one large tappable product card. A badge shows the quantity
-// already in the cart. (Product data is hard-coded and trusted, so innerHTML is safe here.)
+// HTML for one product card. Only the buttons add or remove items (tapping the
+// card itself does nothing), so a customer cannot add something by accident.
+// Not in the cart: one "+" button. In the cart: "− quantity +".
+// (Product data is hard-coded and trusted, so innerHTML is safe here.)
 function productCardHTML(product) {
   const cartItem = findCartItem(product.id);
-  const badge = cartItem ? `<span class="product-badge">${cartItem.quantity}</span>` : '';
 
-  // The whole card is one button; the round "+" is only a visual hint
-  // (a button cannot contain another button).
+  const controls = cartItem
+    ? `<div class="card-qty">
+         <button type="button" class="card-btn card-minus" data-action="decrease" aria-label="Remove one ${product.name}">−</button>
+         <span class="card-qty-value" aria-label="${cartItem.quantity} in order">${cartItem.quantity}</span>
+         <button type="button" class="card-btn card-plus" data-action="increase" aria-label="Add one more ${product.name}">+</button>
+       </div>`
+    : `<button type="button" class="card-btn card-plus" data-action="add" aria-label="Add ${product.name}, ${formatPeso(product.price)}">+</button>`;
+
   return `
-    <button type="button" class="product-card${cartItem ? ' in-cart' : ''}" data-product-id="${product.id}"
-      aria-label="Add ${product.name}, ${formatPeso(product.price)}">
-      ${badge}
+    <div class="product-card${cartItem ? ' in-cart' : ''}" data-product-id="${product.id}">
       <span class="product-icon" aria-hidden="true">${product.icon}</span>
       <span class="product-name">${product.name}</span>
       <span class="product-description">${product.description}</span>
-      <span class="product-footer">
+      <div class="product-footer">
         <span class="product-price">${formatPeso(product.price)}</span>
-        <span class="product-add" aria-hidden="true">+</span>
-      </span>
-    </button>`;
+        ${controls}
+      </div>
+    </div>`;
 }
 
 // HTML for one round category button (All / Drinks / Food / Snacks).
@@ -115,7 +121,9 @@ function categoryChipHTML(category) {
     </button>`;
 }
 
-// HTML for one cart line: icon, name, unit price, − / + / remove buttons, and subtotal.
+// HTML for one compact cart line:
+//   [icon] Name · ₱45.00 each        ₱90.00
+//   [icon] − 2 +                        ×
 function cartItemHTML(item) {
   const product = PRODUCTS.find(function (p) { return p.id === item.productId; });
 
@@ -123,16 +131,16 @@ function cartItemHTML(item) {
     <li class="cart-item" data-product-id="${item.productId}">
       <span class="cart-thumb" aria-hidden="true">${product ? product.icon : ''}</span>
       <div class="cart-item-info">
-        <div class="cart-item-name">${item.name}</div>
-        <div class="cart-item-price">${formatPeso(item.price)} each</div>
+        <span class="cart-item-name">${item.name}</span>
+        <span class="cart-item-price">${formatPeso(item.price)} each</span>
       </div>
-      <button type="button" class="btn-icon btn-remove" data-action="remove" aria-label="Remove ${item.name}">🗑</button>
+      <div class="cart-item-subtotal">${formatPeso(calculateSubtotal(item.price, item.quantity))}</div>
       <div class="qty-controls">
         <button type="button" class="btn-icon btn-minus" data-action="decrease" aria-label="Decrease ${item.name}">−</button>
         <span class="qty-value">${item.quantity}</span>
         <button type="button" class="btn-icon btn-plus" data-action="increase" aria-label="Increase ${item.name}">+</button>
       </div>
-      <div class="cart-item-subtotal">${formatPeso(calculateSubtotal(item.price, item.quantity))}</div>
+      <button type="button" class="btn-icon btn-remove" data-action="remove" aria-label="Remove ${item.name}">×</button>
     </li>`;
 }
 
@@ -163,7 +171,7 @@ function renderCart() {
   const list = document.getElementById('cart-items');
 
   if (appState.cart.length === 0) {
-    list.innerHTML = '<li class="cart-empty">Your order is empty.<br>Tap a product to add it.</li>';
+    list.innerHTML = '<li class="cart-empty">Your order is empty.<br>Tap <strong>+</strong> on a product to add it.</li>';
   } else {
     list.innerHTML = appState.cart.map(cartItemHTML).join('');
   }
@@ -173,6 +181,25 @@ function renderCart() {
   document.getElementById('summary-items').textContent = itemCount;
   document.getElementById('cart-total').textContent = formatPeso(calculateTotal(appState.cart));
   document.getElementById('btn-proceed').disabled = appState.cart.length === 0;
+  updateCartScrollHint();
+}
+
+// Scrolls the order list so the line for this product is visible
+// (otherwise a newly added item could be hidden below the visible area).
+function scrollCartItemIntoView(productId) {
+  const line = document.querySelector('.cart-item[data-product-id="' + productId + '"]');
+  if (line) line.scrollIntoView({ block: 'nearest' });
+  updateCartScrollHint();
+}
+
+// Adds a fade at the top / bottom of the order list while lines are hidden
+// above / below, so the customer knows to scroll.
+function updateCartScrollHint() {
+  const list = document.getElementById('cart-items');
+  const hiddenAbove = list.scrollTop > 2;
+  const hiddenBelow = list.scrollTop + list.clientHeight < list.scrollHeight - 2;
+  list.classList.toggle('more-above', hiddenAbove);
+  list.classList.toggle('more-below', hiddenBelow);
 }
 
 // Redraws everything on the Item Selection screen.
@@ -180,69 +207,82 @@ function renderCart() {
 // Redrawing replaces the buttons, so the focused button is remembered and
 // re-focused afterwards (otherwise keyboard users lose their place).
 function refreshSelection() {
-  const focusSelector = getFocusedButtonSelector();
+  const focusSelectors = getFocusedButtonSelectors();
   renderCategories();
   renderProducts();
   renderCart();
-  restoreFocus(focusSelector);
+  restoreFocus(focusSelectors);
 }
 
-// Describes the focused card / cart button as a CSS selector, or null.
-function getFocusedButtonSelector() {
+// Describes the focused button as a list of CSS selectors to try, best match first.
+// Card buttons change after a tap ("+" becomes "− 2 +", or back), so for those
+// the card's own "+" is the fallback.
+function getFocusedButtonSelectors() {
   const focused = document.activeElement;
-  if (!focused || !focused.closest) return null;
-
-  const card = focused.closest('.product-card');
-  if (card) {
-    return '.product-card[data-product-id="' + card.dataset.productId + '"]';
-  }
+  if (!focused || !focused.closest) return [];
 
   const chip = focused.closest('.category-chip');
   if (chip) {
-    return '.category-chip[data-category="' + chip.dataset.category + '"]';
+    return ['.category-chip[data-category="' + chip.dataset.category + '"]'];
   }
 
-  const cartButton = focused.closest('.cart-item button[data-action]');
-  if (cartButton) {
-    const productId = cartButton.closest('.cart-item').dataset.productId;
-    return '.cart-item[data-product-id="' + productId + '"] [data-action="' + cartButton.dataset.action + '"]';
+  const actionButton = focused.closest('button[data-action]');
+  const container = actionButton && actionButton.closest('[data-product-id]');
+  if (container) {
+    const area = container.classList.contains('cart-item') ? '.cart-item' : '.product-card';
+    const base = area + '[data-product-id="' + container.dataset.productId + '"] ';
+    return [
+      base + '[data-action="' + actionButton.dataset.action + '"]',
+      base + '[data-action="increase"]',
+      base + '[data-action="add"]',
+    ];
   }
 
-  return null;
+  return [];
 }
 
-// Focuses the new copy of the button. If the item was removed, there is
-// nothing to focus, so nothing happens.
-function restoreFocus(selector) {
-  if (!selector) return;
-  const element = document.querySelector(selector);
-  if (element) element.focus();
+// Focuses the first selector that still exists. If the item was removed from the
+// order list, nothing matches, so nothing happens.
+function restoreFocus(selectors) {
+  for (const selector of selectors) {
+    const element = document.querySelector(selector);
+    if (element) {
+      element.focus();
+      return;
+    }
+  }
+}
+
+// One place that turns a button's data-action into a cart change.
+// Used by both the product cards and the order list.
+function handleItemAction(productId, action) {
+  if (action === 'add') addToCart(productId);
+  if (action === 'increase') changeQuantity(productId, 1);
+  if (action === 'decrease') changeQuantity(productId, -1);
+  if (action === 'remove') removeFromCart(productId);
+}
+
+// Click handler shared by the product grid and the order list ("event delegation":
+// one listener per area, because the buttons are re-created on every redraw).
+function onItemButtonClick(event) {
+  const button = event.target.closest('button[data-action]');
+  if (!button) return;
+  const container = button.closest('[data-product-id]');
+  handleItemAction(container.dataset.productId, button.dataset.action);
 }
 
 // ---------- Button handling ----------
 
 // Called once at startup by app.js.
-// One click listener per area ("event delegation"), because the cards and
-// cart lines are re-created every time the screen is redrawn.
 function initSelection() {
-  document.getElementById('product-grid').addEventListener('click', function (event) {
-    const card = event.target.closest('.product-card');
-    if (card) addToCart(card.dataset.productId);
-  });
+  document.getElementById('product-grid').addEventListener('click', onItemButtonClick);
+  document.getElementById('cart-items').addEventListener('click', onItemButtonClick);
+  document.getElementById('cart-items').addEventListener('scroll', updateCartScrollHint);
+  window.addEventListener('resize', updateCartScrollHint);
 
   document.getElementById('category-bar').addEventListener('click', function (event) {
     const chip = event.target.closest('.category-chip');
     if (chip) selectCategory(chip.dataset.category);
-  });
-
-  document.getElementById('cart-items').addEventListener('click', function (event) {
-    const button = event.target.closest('button[data-action]');
-    if (!button) return;
-
-    const productId = button.closest('.cart-item').dataset.productId;
-    if (button.dataset.action === 'increase') changeQuantity(productId, 1);
-    if (button.dataset.action === 'decrease') changeQuantity(productId, -1);
-    if (button.dataset.action === 'remove') removeFromCart(productId);
   });
 
   document.getElementById('btn-proceed').addEventListener('click', function () {
