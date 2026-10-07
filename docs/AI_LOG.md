@@ -71,6 +71,7 @@ Entry template:
   on the stepper for small screens; `width: max-content; max-width: calc(100% - 32px)`
   on the toast. Re-checked: no horizontal scrolling, toast readable.
 - What we changed and why: _(member to fill after review)_
+
 - Verification / test results: _(record results from docs/TEST_LOG.md)_
 
 ## AI-3 — Item Selection screen and cart (Task 3)
@@ -299,6 +300,20 @@ Entry template:
   - Summary shows 6 rows, total ₱270.00. `npm test` 15 pass. No page errors.
 - What we changed and why: _(member to fill after review)_
 
+## AI-C1 — QR, Card, Success, Receipt, New Transaction
+- Date: 2026-10-07
+- Member responsible: Jeff Mico Guerra — Member C, branch `docs/member-c-ai-log`
+- Type: generation (payment flow and transaction helpers)
+- Problem / context: Implement the Member C payment flow for the touchscreen POS kiosk:
+  simulated QR and card payments, a unique transaction number, payment-success details, a receipt,
+  and starting a new transaction. The project uses plain HTML/CSS/JavaScript and stores money in
+  centavos.
+- Prompt used: "I'm Member C in a 3-person IT415 project: a Touchscreen POS Kiosk (HTML/CSS/plain JS, no framework). Read index.html, js/state.js, js/ui.js, js/utils.js, js/selection.js, js/payment.js, and docs/REQUIREMENTS.md first. I may only edit js/checkout.js, the screen-qr / screen-card / screen-success / screen-receipt sections in index.html, a 'Member C' section at the end of css/styles.css, and add pure helpers + tests in js/utils.js / tests/. Build: 1. QR payment (amount, QR placeholder, Confirm Payment, Back). 2. Card payment (instruction, Process Payment, ~2 s 'Processing payment…', button disabled, cancel timer if Back). 3. Unique transaction number (localStorage counter, TXN-YYYY-00001, pure formatter in utils.js with a unit test). 4. Payment Successful (amount, paid, change, method, transaction number, View Receipt; create the transaction only once). 5. Receipt (number, date, items qty × unit price, subtotal, total, method, amount paid, change). 6. New Transaction reset (clear cart, payment, transaction, refreshSelection(), showScreen('selection'), toast). Money is in centavos; use calculateTotal() and formatPeso(). Reuse .btn classes and CSS variables. Work one step at a time and explain the code simply."
+- AI response (summary): Generated `js/checkout.js` for QR confirmation, card processing with a cancellable timer, transaction creation, the success screen, receipt, and transaction reset. Generated `formatTransactionNumber()` in `js/utils.js` and its unit test, plus the QR/Card/Success/Receipt sections in `index.html` and Member C styles in `css/styles.css`.
+- Our evaluation: I read the generated code and ran the app in a browser, trying the payment flow; I do not remember the exact steps I clicked. I made no major changes to the generated implementation. A later observation was that the receipt displays the unit price twice, for example `Coffee (2 × ₱45.00) ₱45.00 ₱90.00`.
+- What we changed and why: Added the Member C payment and checkout flow, transaction-number formatter and test, and related screen markup and styles. QR and card payments record the order total as paid with ₱0 change; the card flow simulates processing; and the reset clears the current transaction so the kiosk is ready for another customer.
+- Verification / test results: My exact browser clicks and results are not recorded. The group's final integration check on `main` commit `050aa5b` recorded `npm test`: 16 pass, 0 fail, including `formatTransactionNumber()` results `TXN-2026-00001`, `TXN-2026-00012`, and `null` for 0. The group check also recorded QR confirmation and card payment (including Back cancelling processing and processing completing after about 2 seconds), payment/receipt details, New Transaction clearing the cart/payment/transaction, and four distinct transaction numbers (`TXN-2026-00001` through `TXN-2026-00004`). The duplicate unit price on the receipt was reported as a known issue.
+
 ## AI-11 — App logo (browser tab icon)
 - Date: 2026-10-07
 - Member responsible: Repollo (M2), branch `feature/app-logo`
@@ -318,4 +333,4 @@ Entry template:
   recognizable at 16 px. Checked on light and dark tab bars (`docs/evidence/logo-preview.png`).
 - Verification / test results: All three icon links load in the page (HTTP 200, correct types);
   page title "Campus Store POS Kiosk"; `npm test` 16 pass; no page errors.
-- What we changed and why: _(member to fill after review)_
+- What we changed and why: Kept the AI's logo design; after seeing it in the tab I also asked for it to replace the "CS" badge in the header so the brand matches. [drafted with AI from our session, reviewed by Repollo]
