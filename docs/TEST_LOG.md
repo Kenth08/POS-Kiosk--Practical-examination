@@ -19,3 +19,7 @@ Record each test when it is actually run. Result: PASS / FAIL (describe the prob
 | 2026-10-07 | Task 3 | + at quantity 99 | Stays 99; "Invalid quantity — maximum is 99" | PASS (AI run) | AI; member to re-run |
 | 2026-10-07 | Task 3 | Proceed to Payment → then back to selection | Opens Review screen; items, quantities and badges preserved | PASS (AI run) | AI; member to re-run |
 | 2026-10-07 | Task 3 | Phone width (375 px) | No sideways scrolling; cart below products | PASS (AI run) | AI; member to re-run |
+| 2026-10-07 | Task 6 | All 6 products added at 1024×768 | Total ₱290.00; cart scrolls; Proceed visible | PASS (AI run) | AI; member to re-run |
+| 2026-10-07 | Task 6 | Tab to + and press Enter twice | Focus stays on +; quantity rises each time | FAIL before fix (focus → BODY); PASS after fix | AI; member to re-run |
+| 2026-10-07 | Task 6 | Tab to a product card and press Enter twice | Focus stays on card; quantity 2 | FAIL before fix; PASS after fix | AI; member to re-run |
+| 2026-10-07 | Task 6 | Regression: instructor tests 2–6 | ₱175 / ₱220 / ₱175 / ₱140; cart kept after Back | PASS (AI run) | AI; member to re-run |

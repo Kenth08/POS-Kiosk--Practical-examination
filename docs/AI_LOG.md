@@ -102,3 +102,30 @@ Entry template:
 - What we changed and why: _(member to fill after review)_
 - Verification / test results: `npm test` 9 pass, 0 fail. Browser click-tests of instructor
   tests 1–4 and 6 all matched expected values (see TEST_LOG.md).
+
+## AI-4 — Debugging: keyboard focus lost after cart redraw (Task 6)
+- Date: 2026-10-07
+- Member responsible: Repollo (M2) — Member A, branch `feature/item-selection`
+- Type: debugging
+- Problem / context: Testing pass on the Item Selection screen at kiosk size (1024×768).
+- Prompt used: "continue" — AI was asked to perform Task 6 (test pass + fix real bugs) for Member A.
+- Error found (reproduced): Focus a product card or the + button and press Enter. The action
+  works, but `document.activeElement` becomes `BODY`, so pressing Enter again does nothing and the
+  user must Tab through the page again. Measured result before fix:
+  `focusAfterPlus: "BODY"`, `focusAfterCardTap: "BODY"`.
+- Cause: `refreshSelection()` rebuilds all cards and cart buttons with `innerHTML`, so the focused
+  button is deleted and replaced by a new, unfocused copy.
+- AI response / fix: Before redrawing, `getFocusedButtonSelector()` records the focused button as a
+  selector (product id + action); after redrawing, `restoreFocus()` focuses the new copy.
+- Our evaluation: Small, contained fix (two helper functions) instead of rewriting rendering to
+  update elements in place, which would be more complex. When an item is removed, its buttons no
+  longer exist, so focus returns to the page — acceptable.
+- Problem during verification: the first re-test still showed `BODY`. Cause: the browser was using a
+  cached old copy of `selection.js` (`typeof getFocusedButtonSelector` was `undefined`). After a hard
+  reload the new code loaded. Lesson: hard-refresh (Ctrl+F5) after changing JS files.
+- Verification / test results: After fix — card tap keeps focus on the card (Enter again → qty 2);
+  + keeps focus on + (Enter again → qty 4). Regression: instructor tests 2–6 still give
+  ₱175 / ₱220 / ₱175 / ₱140, Proceed and Back preserve the cart; `npm test` 9 pass, 0 fail.
+- Other checks in this pass with no bug found: all 6 products in cart at 1024×768 (total ₱290.00
+  correct; cart list scrolls; Proceed stays visible).
+- What we changed and why: _(member to fill after review)_

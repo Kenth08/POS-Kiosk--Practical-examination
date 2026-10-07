@@ -35,6 +35,8 @@ cd POS-Kiosk--Practical-examination
 
 Run the app: open `index.html` in a browser (double-click it). For a kiosk feel, press `F11` for full screen.
 
+If you change a JS or CSS file and don't see the change, hard-refresh the browser with `Ctrl+F5`.
+
 Run the tests:
 
 ```bash
