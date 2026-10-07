@@ -27,8 +27,31 @@
   <main class="app-main">
     <!-- Screen 1: Item Selection + cart (Member A) -->
     <section class="screen" id="screen-selection" data-step="1">
-      <h1 class="screen-title">Tap a product to add it</h1>
-      <p class="placeholder">Item Selection screen — to be built by Member A.</p>
+      <div class="selection-layout">
+        <div class="product-area">
+          <h1 class="screen-title">Tap a product to add it</h1>
+          <!-- Product cards are created by renderProducts() in selection.js -->
+          <div class="product-grid" id="product-grid"></div>
+        </div>
+
+        <aside class="cart-panel" aria-label="Your order">
+          <div class="cart-header">
+            <h2>Your Order</h2>
+            <span class="cart-count" id="cart-count">0 items</span>
+          </div>
+          <!-- Cart lines are created by renderCart() in selection.js -->
+          <ul class="cart-items" id="cart-items"></ul>
+          <div class="cart-footer">
+            <div class="cart-total-row">
+              <span>Total</span>
+              <strong id="cart-total">₱0.00</strong>
+            </div>
+            <button class="btn btn-primary btn-block" id="btn-proceed" type="button">
+              Proceed to Payment →
+            </button>
+          </div>
+        </aside>
+      </div>
     </section>
 
     <!-- Screen 2: Order / Payment Summary (Member B) -->

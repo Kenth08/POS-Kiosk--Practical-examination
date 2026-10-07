@@ -113,6 +113,149 @@ body {
 
 .btn-secondary { background: var(--color-surface); color: var(--color-text); border: 2px solid var(--color-border); }
 
+.btn-block { width: 100%; }
+
+/* ===== Screen 1: Item Selection (Member A) ===== */
+.selection-layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 32px;
+  align-items: start;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.product-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border: 3px solid transparent;
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  font-family: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: transform 0.1s;
+}
+
+.product-card:active { transform: scale(0.97); }
+.product-card.in-cart { border-color: var(--color-accent); }
+
+.product-icon {
+  display: grid;
+  place-items: center;
+  height: 120px;
+  border-radius: 12px;
+  background: #fdf1e7;
+  font-size: 56px;
+}
+
+.product-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.product-name { font-size: 20px; font-weight: 600; }
+.product-price { font-size: 20px; font-weight: 700; color: var(--color-accent); white-space: nowrap; }
+
+.product-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 8px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: var(--color-accent);
+  color: #fff;
+  font-weight: 700;
+}
+
+/* Cart panel */
+.cart-panel {
+  position: sticky;
+  top: 16px;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 140px);
+  padding: 20px;
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.cart-header { display: flex; justify-content: space-between; align-items: baseline; }
+.cart-header h2 { margin: 0 0 12px; font-size: 24px; }
+.cart-count { color: var(--color-muted); }
+
+.cart-items {
+  flex: 1;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cart-empty {
+  padding: 32px 8px;
+  color: var(--color-muted);
+  text-align: center;
+}
+
+.cart-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.cart-item-name { font-weight: 600; }
+.cart-item-price { color: var(--color-muted); font-size: 15px; }
+.cart-item-subtotal { align-self: center; font-weight: 700; font-size: 20px; }
+
+.qty-controls { display: flex; align-items: center; gap: 12px; }
+.qty-value { min-width: 28px; text-align: center; font-size: 20px; font-weight: 700; }
+
+.btn-icon {
+  width: 52px;
+  height: 52px;
+  border: 2px solid var(--color-border);
+  border-radius: 12px;
+  background: var(--color-surface);
+  font-family: inherit;
+  font-size: 24px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-icon.btn-plus { background: var(--color-header); border-color: var(--color-header); color: #fff; }
+.btn-icon.btn-remove { margin-left: auto; border-color: #fecaca; background: #fef2f2; font-size: 20px; }
+
+.cart-footer { padding-top: 16px; border-top: 2px dashed var(--color-border); }
+
+.cart-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 16px;
+  font-size: 20px;
+}
+
+.cart-total-row strong { font-size: 32px; }
+
 /* ===== Feedback toast ===== */
 .toast {
   position: fixed;
@@ -137,7 +280,16 @@ body {
 .toast-error { background: var(--color-error); }
 
 /* ===== Smaller screens / tablets ===== */
+@media (max-width: 960px) {
+  .selection-layout { grid-template-columns: 1fr; }
+  .cart-panel { position: static; max-height: none; }
+}
+
 @media (max-width: 720px) {
+  .product-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .product-icon { height: 90px; font-size: 44px; }
+  .product-name, .product-price { font-size: 17px; }
+  .product-info { flex-direction: column; gap: 2px; }
   .app-header { padding: 12px 16px; }
   .app-main { padding: 16px; }
   .stepper { flex-wrap: wrap; gap: 6px; }
