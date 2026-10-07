@@ -37,10 +37,10 @@ Entry template:
   roadmap and a split by transaction flow (A: selection/cart, B: summary/method/cash,
   C: QR/card/success/receipt/reset).
 - Code or files produced: none (planning only); later written up as `docs/REQUIREMENTS.md`.
-- Our evaluation: _(member to fill: did the plan match the exam? anything missing or unnecessary?)_
-- What we changed and why: _(member to fill)_
+- Our evaluation: The plan matched the exam: the 7-step flow, the 20 required functions, and the 15 instructor tests were all listed. Nothing required was missing; the optional admin features were left out on purpose. [drafted with AI from our session, reviewed by Repollo]
+- What we changed and why: We kept the plan and the A/B/C split by screen. Later we added UI improvements that were not in the first plan (menu design, category filter, logo) after the required flow worked. [drafted with AI from our session, reviewed by Repollo]
 - Verification / test results: Cross-checked the requirement list against exam pages 1–8 and the
-  Acceptance Checklist. _(member to confirm)_
+  Acceptance Checklist. Confirmed by Repollo.
 
 ## AI-2 — Project skeleton (Task 1)
 - Date: 2026-10-07
@@ -57,7 +57,7 @@ Entry template:
 - Code or files produced: see Task 1 commit / PR.
 - Our evaluation: The AI added a separate `ui.js` that was not in the original roadmap (roadmap
   only listed `state.js`). This keeps state (data) separate from screen helpers (DOM), which is
-  a cleaner separation. _(member to add own evaluation)_
+  a cleaner separation. The skeleton let all three members work in separate files, so merges had only one small conflict (utils.js). [drafted with AI from our session, reviewed by Repollo]
 - Issue found during verification: the AI's first `package.json` test script was
   `node --test tests/`. Running `npm test` failed with
   `Error: Cannot find module '...\tests'` — on Node.js v24, a folder path given to
@@ -70,8 +70,7 @@ Entry template:
   limited to half the screen. Fix: `white-space: nowrap` on steps and `flex-wrap: wrap`
   on the stepper for small screens; `width: max-content; max-width: calc(100% - 32px)`
   on the toast. Re-checked: no horizontal scrolling, toast readable.
-- What we changed and why: _(member to fill after review)_
-
+- What we changed and why: The AI's first test script failed on Node 24, so we changed it to a file pattern. We also fixed the header steps and the toast on small screens after testing. [drafted with AI from our session, reviewed by Repollo]
 - Verification / test results: _(record results from docs/TEST_LOG.md)_
 
 ## AI-3 — Item Selection screen and cart (Task 3)
@@ -99,8 +98,8 @@ Entry template:
   - Product categories filter from the sample UI was left out — optional, not required.
   - Known limitation: on phone-width screens the cart is below the products (scroll down).
     The kiosk target is a large touch screen, where the cart is beside the products.
-  - _(member to add own evaluation)_
-- What we changed and why: _(member to fill after review)_
+  - Totals matched the exam (₱175 / ₱220 / ₱140). I agreed that − at quantity 1 should remove the item so quantity can never be 0 or negative. [drafted with AI from our session, reviewed by Repollo]
+- What we changed and why: Kept as generated at first. Later changed in AI-10: only the + button adds, and cards also got a − button. [drafted with AI from our session, reviewed by Repollo]
 - Verification / test results: `npm test` 9 pass, 0 fail. Browser click-tests of instructor
   tests 1–4 and 6 all matched expected values (see TEST_LOG.md).
 
@@ -129,7 +128,7 @@ Entry template:
   ₱175 / ₱220 / ₱175 / ₱140, Proceed and Back preserve the cart; `npm test` 9 pass, 0 fail.
 - Other checks in this pass with no bug found: all 6 products in cart at 1024×768 (total ₱290.00
   correct; cart list scrolls; Proceed stays visible).
-- What we changed and why: _(member to fill after review)_
+- What we changed and why: We kept the small focus fix instead of rewriting how the screen is drawn, because it was simpler and easier to explain. [drafted with AI from our session, reviewed by Repollo]
 
 ## AI-5 — Refactoring: cart rendering and duplicated quantity check (Task 7)
 - Date: 2026-10-07
@@ -156,7 +155,7 @@ Entry template:
     tags): `identical: [true, true, true]`.
   - Instructor tests 2–6 still ₱175 / ₱220 / ₱175 / ₱140; − at 1 removes; focus fix still works.
   - `npm test`: 9 pass, 0 fail.
-- What we changed and why: _(member to fill after review)_
+- What we changed and why: Accepted the refactor only after the before/after check showed the same screen output and all tests still passed. [drafted with AI from our session, reviewed by Repollo]
 
 ## AI-6 — UI redesign from a reference design (Item Selection)
 - Date: 2026-10-07
@@ -187,7 +186,7 @@ Entry template:
 - Verification / test results: Full-resolution screenshots at 1280×800, 1024×768 and 390×844
   (saved in `docs/evidence/`). Functional regression: instructor tests 1–6, − at 1, focus fix,
   99 limit all unchanged; `npm test` 9 pass, 0 fail.
-- What we changed and why: _(member to fill after review)_
+- What we changed and why: We said no to downloaded photos (kept emoji) and no to a service fee and discount, so the totals stay exactly what the exam expects. [drafted with AI from our session, reviewed by Repollo]
 
 ## AI-7 — Order summary and cash payment (Member B)
 > Written by Pacia (M1) on `feature/payment-cash` as "AI-3". Renumbered to AI-7 when
@@ -237,7 +236,7 @@ Entry template:
 - Verification / test results: Integration flow re-run in headless Edge — summary ₱140, Back keeps
   cart, ₱100 rejected, blank rejected, ₱200 → change ₱60; no JS errors; `npm test` 11 pass.
   Screenshots saved in `docs/evidence/` (summary-screen, payment-method-screen, cash-insufficient).
-- What we changed and why: _(member to fill after review)_
+- What we changed and why: Styled Member B's screens with CSS only, so Pacia's payment.js and HTML stayed her own work. [drafted with AI from our session, reviewed by Repollo]
 
 ## AI-9 — Menu-style Item Selection from a second UI reference
 - Date: 2026-10-07
@@ -266,7 +265,7 @@ Entry template:
   Bottled Water; Snacks → Cookies, Chocolate; cart and ₱175 total unchanged while filtering; adding
   while filtered works; instructor tests 2–6 still ₱175 / ₱220 / ₱175 / ₱140; summary matches; Back
   keeps cart; no page errors. Screenshots in `docs/evidence/`.
-- What we changed and why: _(member to fill after review)_
+- What we changed and why: Removed the flash offer, favourite hearts, and bottom navigation from the reference: they were not needed or would change the totals. [drafted with AI from our session, reviewed by Repollo]
 
 ## AI-10 — Card +/− buttons and order list visibility (user feedback)
 - Date: 2026-10-07
@@ -298,7 +297,7 @@ Entry template:
   - All six products added: at 1920×1080 all 6 lines visible (line height 87px), Proceed visible;
     at 1280×800 the list scrolls to the newest line and shows the top fade.
   - Summary shows 6 rows, total ₱270.00. `npm test` 15 pass. No page errors.
-- What we changed and why: _(member to fill after review)_
+- What we changed and why: I found during my own testing that the order panel hid items on my 1920×1080 screen and asked for the fix; the result was checked with all six products in the order. [drafted with AI from our session, reviewed by Repollo]
 
 ## AI-C1 — QR, Card, Success, Receipt, New Transaction
 - Date: 2026-10-07
