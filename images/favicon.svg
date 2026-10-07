@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>Campus Store</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff8a3d"/>
+      <stop offset="1" stop-color="#e2550f"/>
+    </linearGradient>
+  </defs>
+  <!-- Orange rounded tile (same orange as the app) -->
+  <rect width="64" height="64" rx="16" fill="url(#bg)"/>
+  <!-- Shopping bag handle -->
+  <path d="M24 25v-5a8 8 0 0 1 16 0v5" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+  <!-- Shopping bag body -->
+  <path d="M15.5 25h33l-2.6 23.2A4 4 0 0 1 41.9 52H22.1a4 4 0 0 1-4-3.8z" fill="#fff"/>
+  <!-- Handle holes -->
+  <circle cx="24" cy="31" r="2.4" fill="#f26b1d"/>
+  <circle cx="40" cy="31" r="2.4" fill="#f26b1d"/>
+  <!-- Smile: friendly self-service kiosk -->
+  <path d="M26 39.5q6 5 12 0" fill="none" stroke="#f26b1d" stroke-width="3" stroke-linecap="round"/>
+</svg>

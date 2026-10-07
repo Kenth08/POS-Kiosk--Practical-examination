@@ -298,3 +298,21 @@ Entry template:
     at 1280×800 the list scrolls to the newest line and shows the top fade.
   - Summary shows 6 rows, total ₱270.00. `npm test` 15 pass. No page errors.
 - What we changed and why: _(member to fill after review)_
+
+## AI-11 — App logo (browser tab icon)
+- Date: 2026-10-07
+- Member responsible: Repollo (M2), branch `feature/app-logo`
+- Type: generation (design asset)
+- Problem / context: The browser tab showed a blank default icon; the group wanted a logo that shows
+  in the tab, bookmarks, and history.
+- Prompt used: "and also generate or create a logo so that if search the site or webapp it will show
+  in the browser"
+- AI response (summary): Drew `images/favicon.svg` by hand in SVG (orange rounded tile in the app's
+  accent color with a white smiling shopping bag), rendered PNG copies from it (`favicon-32.png`
+  fallback, `apple-touch-icon.png` 180×180 for phone home screens), and linked them in `index.html`
+  with a `theme-color` and page `description`.
+- Our evaluation: Original artwork (no downloaded or copyrighted images). Shape kept simple so it is
+  recognizable at 16 px. Checked on light and dark tab bars (`docs/evidence/logo-preview.png`).
+- Verification / test results: All three icon links load in the page (HTTP 200, correct types);
+  page title "Campus Store POS Kiosk"; `npm test` 16 pass; no page errors.
+- What we changed and why: _(member to fill after review)_
