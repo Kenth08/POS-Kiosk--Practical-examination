@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campus Store POS Kiosk</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <!-- Header: store brand + transaction progress steps -->
+  <header class="app-header">
+    <div class="brand">
+      <div class="brand-logo">CS</div>
+      <div>
+        <div class="brand-name">Campus Store</div>
+        <div class="brand-tagline">Self-service kiosk</div>
+      </div>
+    </div>
+    <ol class="stepper" id="stepper">
+      <li data-step="1">1 Order</li>
+      <li data-step="2">2 Review</li>
+      <li data-step="3">3 Payment</li>
+      <li data-step="4">4 Receipt</li>
+    </ol>
+  </header>
+
+  <main class="app-main">
+    <!-- Screen 1: Item Selection + cart (Member A) -->
+    <section class="screen" id="screen-selection" data-step="1">
+      <h1 class="screen-title">Tap a product to add it</h1>
+      <p class="placeholder">Item Selection screen — to be built by Member A.</p>
+    </section>
+
+    <!-- Screen 2: Order / Payment Summary (Member B) -->
+    <section class="screen" id="screen-summary" data-step="2">
+      <h1 class="screen-title">Review your order</h1>
+      <p class="placeholder">Order Summary screen — to be built by Member B.</p>
+    </section>
+
+    <!-- Screen 3: Payment Method (Member B) -->
+    <section class="screen" id="screen-method" data-step="3">
+      <h1 class="screen-title">How would you like to pay?</h1>
+      <p class="placeholder">Payment Method screen — to be built by Member B.</p>
+    </section>
+
+    <!-- Screen 3a: Cash payment (Member B) -->
+    <section class="screen" id="screen-cash" data-step="3">
+      <h1 class="screen-title">Cash Payment</h1>
+      <p class="placeholder">Cash Payment screen — to be built by Member B.</p>
+    </section>
+
+    <!-- Screen 3b: QR payment (Member C) -->
+    <section class="screen" id="screen-qr" data-step="3">
+      <h1 class="screen-title">QR Payment</h1>
+      <p class="placeholder">QR Payment screen — to be built by Member C.</p>
+    </section>
+
+    <!-- Screen 3c: Credit / Debit Card payment (Member C) -->
+    <section class="screen" id="screen-card" data-step="3">
+      <h1 class="screen-title">Credit / Debit Card</h1>
+      <p class="placeholder">Card Payment screen — to be built by Member C.</p>
+    </section>
+
+    <!-- Screen 4: Payment Successful (Member C) -->
+    <section class="screen" id="screen-success" data-step="4">
+      <h1 class="screen-title">Payment Successful</h1>
+      <p class="placeholder">Payment Successful screen — to be built by Member C.</p>
+    </section>
+
+    <!-- Screen 5: Receipt + New Transaction (Member C) -->
+    <section class="screen" id="screen-receipt" data-step="4">
+      <h1 class="screen-title">Receipt</h1>
+      <p class="placeholder">Receipt screen — to be built by Member C.</p>
+    </section>
+  </main>
+
+  <!-- Shared feedback message (e.g. "Product added", "Insufficient payment") -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Plain scripts (not ES modules) so the app also runs by double-clicking index.html.
+       Order matters: shared files first, feature files next, app.js last. -->
+  <script src="js/products.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/selection.js"></script>
+  <script src="js/payment.js"></script>
+  <script src="js/checkout.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
