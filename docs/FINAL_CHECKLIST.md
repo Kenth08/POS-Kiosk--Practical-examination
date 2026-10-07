@@ -4,7 +4,7 @@ Checked against the exam's instructor tests (pages 7–8) and the Acceptance Che
 Status: **PASS** = verified on the stated commit · **GAP** = missing evidence.
 Re-run every row on the final `main` commit before the demonstration.
 
-Last checked on `main` commit **`050aa5b`** (all three members' features merged, PR #4), 2026-10-07, in headless Edge at 1280×800 plus `npm test` (16 pass).
+Last checked on `main` commit **`adcceea`** (re-run after all 8 PRs merged); first full check on **`050aa5b`** (all three members' features merged, PR #4), 2026-10-07, in headless Edge at 1280×800 plus `npm test` (16 pass).
 
 ## Instructor tests
 
@@ -51,9 +51,9 @@ Last checked on `main` commit **`050aa5b`** (all three members' features merged,
 | ≥ 7 real stages in history (setup, interface, core, validation, bug fix, refactor, docs) | PASS (see `git log`) |
 | Feature branches per member, pushed | PASS — `feature/item-selection`, `feature/payment-cash`, `member-c-payment-flow` |
 | Pull requests name source and target branch | PASS — PR #1 to #4 |
-| Review **before** merge (Approve) | **GAP** — PR #1 to #4 have no Approve review. PR #4 (Member C) was opened and merged by Kenth08. |
-| Final demo matches final integration commit | Demo from `main`; app code final at `050aa5b` (later commits are docs only) |
+| Review **before** merge (Approve) | PARTIAL — PR #5, #7, #8 approved by teammates before merge; PR #2 and #6 approved by Kenth08; PR #1, #3, #4 merged without a teammate Approve (late review comments requested). |
+| Final demo matches final integration commit | Demo from `main` at `adcceea` (re-verified: all 15 instructor tests pass, `npm test` 16 pass) |
 | README: setup, technology, storage, contributions | PASS |
-| AI prompts, responses, evaluations, modifications documented | A and B PASS; **GAP** — no Member C entry yet; members' own evaluation fields not filled |
+| AI prompts, responses, evaluations, modifications documented | PASS — AI-1 to AI-11 (Members A, B) and AI-C1 (Member C); evaluation notes filled |
 
 Known minor issue (Member C, cosmetic): receipt lines show the unit price twice, e.g. "Coffee (2 × ₱45.00) ₱45.00 ₱90.00".

@@ -10,7 +10,7 @@ Fill in only real, verifiable information (actual branch names, PR numbers, comm
 | Repository URL | https://github.com/Kenth08/POS-Kiosk--Practical-examination |
 | Repository owner | Kenth08 |
 | Main / integration branch | `main` |
-| Final commit SHA | `050aa5b` (app code; later commits are documentation only) |
+| Final commit SHA | `adcceea` (after PR #8; all features, logo, and documentation merged) |
 
 ## Members and branches
 
