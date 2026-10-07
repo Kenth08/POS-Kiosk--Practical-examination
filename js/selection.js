@@ -5,6 +5,12 @@
 
 const MAX_QUANTITY = 99; // upper limit per item so a stuck tap cannot run away
 
+// Icon shown in each round category button.
+const CATEGORY_ICONS = { All: '🍽️', Drinks: '🥤', Food: '🥪', Snacks: '🍪' };
+
+// Which category is shown. Screen-only setting, so it lives here, not in appState.
+let activeCategory = 'All';
+
 // ---------- Cart actions (change appState.cart, then redraw) ----------
 
 // Returns the cart line for a product, or undefined if it is not in the cart.
@@ -82,15 +88,30 @@ function productCardHTML(product) {
   const cartItem = findCartItem(product.id);
   const badge = cartItem ? `<span class="product-badge">${cartItem.quantity}</span>` : '';
 
+  // The whole card is one button; the round "+" is only a visual hint
+  // (a button cannot contain another button).
   return `
-    <button type="button" class="product-card${cartItem ? ' in-cart' : ''}" data-product-id="${product.id}">
+    <button type="button" class="product-card${cartItem ? ' in-cart' : ''}" data-product-id="${product.id}"
+      aria-label="Add ${product.name}, ${formatPeso(product.price)}">
       ${badge}
       <span class="product-icon" aria-hidden="true">${product.icon}</span>
-      <span class="product-info">
-        <span class="product-name">${product.name}</span>
+      <span class="product-name">${product.name}</span>
+      <span class="product-description">${product.description}</span>
+      <span class="product-footer">
         <span class="product-price">${formatPeso(product.price)}</span>
+        <span class="product-add" aria-hidden="true">+</span>
       </span>
-      <span class="product-category">${product.category}</span>
+    </button>`;
+}
+
+// HTML for one round category button (All / Drinks / Food / Snacks).
+function categoryChipHTML(category) {
+  const isActive = category === activeCategory;
+  return `
+    <button type="button" class="category-chip${isActive ? ' active' : ''}" data-category="${category}"
+      aria-pressed="${isActive}">
+      <span class="category-icon" aria-hidden="true">${CATEGORY_ICONS[category] || '🛒'}</span>
+      <span class="category-label">${category}</span>
     </button>`;
 }
 
@@ -115,9 +136,26 @@ function cartItemHTML(item) {
     </li>`;
 }
 
-// Draws all product cards.
+// Draws the category buttons.
+function renderCategories() {
+  document.getElementById('category-bar').innerHTML =
+    getCategories(PRODUCTS).map(categoryChipHTML).join('');
+}
+
+// Draws the product cards for the selected category.
 function renderProducts() {
-  document.getElementById('product-grid').innerHTML = PRODUCTS.map(productCardHTML).join('');
+  const visibleProducts = filterByCategory(PRODUCTS, activeCategory);
+  document.getElementById('product-grid').innerHTML = visibleProducts.map(productCardHTML).join('');
+  document.getElementById('product-heading').textContent =
+    activeCategory === 'All' ? 'All Items' : activeCategory;
+  document.getElementById('product-count').textContent =
+    visibleProducts.length + (visibleProducts.length === 1 ? ' item' : ' items');
+}
+
+// Category button: only changes which products are shown — the cart is not touched.
+function selectCategory(category) {
+  activeCategory = category;
+  refreshSelection();
 }
 
 // Draws the cart lines, item count, and total, and enables/disables Proceed.
@@ -143,6 +181,7 @@ function renderCart() {
 // re-focused afterwards (otherwise keyboard users lose their place).
 function refreshSelection() {
   const focusSelector = getFocusedButtonSelector();
+  renderCategories();
   renderProducts();
   renderCart();
   restoreFocus(focusSelector);
@@ -156,6 +195,11 @@ function getFocusedButtonSelector() {
   const card = focused.closest('.product-card');
   if (card) {
     return '.product-card[data-product-id="' + card.dataset.productId + '"]';
+  }
+
+  const chip = focused.closest('.category-chip');
+  if (chip) {
+    return '.category-chip[data-category="' + chip.dataset.category + '"]';
   }
 
   const cartButton = focused.closest('.cart-item button[data-action]');
@@ -184,6 +228,11 @@ function initSelection() {
   document.getElementById('product-grid').addEventListener('click', function (event) {
     const card = event.target.closest('.product-card');
     if (card) addToCart(card.dataset.productId);
+  });
+
+  document.getElementById('category-bar').addEventListener('click', function (event) {
+    const chip = event.target.closest('.category-chip');
+    if (chip) selectCategory(chip.dataset.category);
   });
 
   document.getElementById('cart-items').addEventListener('click', function (event) {

@@ -29,7 +29,27 @@
     <section class="screen" id="screen-selection" data-step="1">
       <div class="selection-layout">
         <div class="product-area">
-          <h1 class="screen-title">Tap a product to add it</h1>
+          <!-- Welcome banner -->
+          <div class="hero">
+            <div class="hero-text">
+              <span class="hero-badge">🔥 Fresh today</span>
+              <h1 class="hero-title">Campus favorites,<br>ready in seconds</h1>
+              <p class="hero-subtitle">Tap a product below to add it to your order.</p>
+            </div>
+            <div class="hero-art" aria-hidden="true">
+              <span class="hero-art-main">🥪</span>
+              <span class="hero-art-side hero-art-drink">🥤</span>
+              <span class="hero-art-side hero-art-cookie">🍪</span>
+            </div>
+          </div>
+
+          <!-- Category buttons are created by renderCategories() in selection.js -->
+          <div class="category-bar" id="category-bar" role="group" aria-label="Product categories"></div>
+
+          <div class="section-heading">
+            <h2 id="product-heading">All Items</h2>
+            <span class="section-count" id="product-count"></span>
+          </div>
           <!-- Product cards are created by renderProducts() in selection.js -->
           <div class="product-grid" id="product-grid"></div>
         </div>

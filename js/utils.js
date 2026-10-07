@@ -30,6 +30,24 @@ function countItems(cart) {
   }, 0);
 }
 
+// Unique category names in catalog order, with "All" first: ['All', 'Drinks', 'Food', 'Snacks']
+function getCategories(products) {
+  const categories = ['All'];
+  products.forEach(function (product) {
+    if (!categories.includes(product.category)) categories.push(product.category);
+  });
+  return categories;
+}
+
+// Products in one category ("All" returns every product). Only changes what is shown —
+// it never touches the cart.
+function filterByCategory(products, category) {
+  if (category === 'All') return products;
+  return products.filter(function (product) {
+    return product.category === category;
+  });
+}
+
 // Returns change in centavos, or null when either amount is invalid or underpaid.
 function calculateChange(amountPaid, total) {
   if (!Number.isSafeInteger(amountPaid) || !Number.isSafeInteger(total) ||
@@ -42,5 +60,8 @@ function calculateChange(amountPaid, total) {
 
 // Lets Node tests load this file; ignored in the browser.
 if (typeof module !== 'undefined') {
-  module.exports = { formatPeso, calculateSubtotal, calculateTotal, countItems, calculateChange };
+  module.exports = {
+    formatPeso, calculateSubtotal, calculateTotal, countItems,
+    getCategories, filterByCategory, calculateChange,
+  };
 }
