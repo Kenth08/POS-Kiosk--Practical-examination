@@ -8,6 +8,10 @@ const MAX_QUANTITY = 99; // upper limit per item so a stuck tap cannot run away
 // Icon shown in each round category button.
 const CATEGORY_ICONS = { All: '🍽️', Drinks: '🥤', Food: '🥪', Snacks: '🍪' };
 
+// Trash-can icon for the "remove item" button in the order list.
+const TRASH_ICON = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" ' +
+  'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12M9 7V4h6v3"/></svg>';
+
 // Which category is shown. Screen-only setting, so it lives here, not in appState.
 let activeCategory = 'All';
 
@@ -96,13 +100,17 @@ function productCardHTML(product) {
          <span class="card-qty-value" aria-label="${cartItem.quantity} in order">${cartItem.quantity}</span>
          <button type="button" class="card-btn card-plus" data-action="increase" aria-label="Add one more ${product.name}">+</button>
        </div>`
-    : `<button type="button" class="card-btn card-plus" data-action="add" aria-label="Add ${product.name}, ${formatPeso(product.price)}">+</button>`;
+    : `<button type="button" class="card-btn card-plus card-add" data-action="add" aria-label="Add ${product.name}, ${formatPeso(product.price)}">
+         <span class="card-add-plus" aria-hidden="true">+</span> Add
+       </button>`;
 
   return `
     <div class="product-card${cartItem ? ' in-cart' : ''}" data-product-id="${product.id}">
       <span class="product-icon" aria-hidden="true">${product.icon}</span>
-      <span class="product-name">${product.name}</span>
-      <span class="product-description">${product.description}</span>
+      <div class="product-body">
+        <span class="product-name">${product.name}</span>
+        <span class="product-description">${product.description}</span>
+      </div>
       <div class="product-footer">
         <span class="product-price">${formatPeso(product.price)}</span>
         ${controls}
@@ -122,8 +130,9 @@ function categoryChipHTML(category) {
 }
 
 // HTML for one compact cart line:
-//   [icon] Name · ₱45.00 each        ₱90.00
-//   [icon] − 2 +                        ×
+//   [icon] Name                 ₱90.00
+//   [icon] ₱45.00 each
+//          − 2 +                  [trash]
 function cartItemHTML(item) {
   const product = PRODUCTS.find(function (p) { return p.id === item.productId; });
 
@@ -140,7 +149,7 @@ function cartItemHTML(item) {
         <span class="qty-value">${item.quantity}</span>
         <button type="button" class="btn-icon btn-plus" data-action="increase" aria-label="Increase ${item.name}">+</button>
       </div>
-      <button type="button" class="btn-icon btn-remove" data-action="remove" aria-label="Remove ${item.name}">×</button>
+      <button type="button" class="btn-icon btn-remove" data-action="remove" aria-label="Remove ${item.name}">${TRASH_ICON}</button>
     </li>`;
 }
 
@@ -171,7 +180,12 @@ function renderCart() {
   const list = document.getElementById('cart-items');
 
   if (appState.cart.length === 0) {
-    list.innerHTML = '<li class="cart-empty">Your order is empty.<br>Tap <strong>+</strong> on a product to add it.</li>';
+    list.innerHTML =
+      '<li class="cart-empty">' +
+        '<span class="cart-empty-icon" aria-hidden="true">🛒</span>' +
+        '<span class="cart-empty-title">Your order is empty</span>' +
+        '<span class="cart-empty-hint">Tap <strong>+ Add</strong> on a product to start your order.</span>' +
+      '</li>';
   } else {
     list.innerHTML = appState.cart.map(cartItemHTML).join('');
   }

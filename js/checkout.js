@@ -77,19 +77,58 @@ function renderPaymentTotalsForCheckout() {
   if (cardTotal) cardTotal.textContent = 'Total due: ' + totalText;
 }
 
+// Date and time shown on the success screen and the receipt, e.g. "Oct 7, 2026, 8:14 PM".
+function formatReceiptDate(isoDate) {
+  return new Date(isoDate).toLocaleString('en-PH', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+  });
+}
+
+// Payment rows (display only — values come from the saved transaction).
+// Every method shows Amount paid + Change (the exam requires both on the receipt;
+// QR and Card change is ₱0.00). Card also shows its approval status.
+function getPaymentDetailRows(transaction) {
+  const rows = [
+    ['Amount paid', formatPeso(transaction.amountPaid)],
+    ['Change', formatPeso(transaction.change)],
+  ];
+  if (transaction.paymentMethod === 'card') {
+    rows.push(['Card status', 'Approved']);
+  }
+  return rows;
+}
+
+// One "label ........ value" line used on both screens.
+function detailRowHTML(label, value, extraClass) {
+  return '<div class="detail-row' + (extraClass ? ' ' + extraClass : '') + '">' +
+    '<span class="detail-label">' + label + '</span>' +
+    '<span class="detail-value">' + value + '</span>' +
+    '</div>';
+}
+
 function renderSuccessScreen() {
   const container = document.getElementById('success-content');
   if (!container) return;
 
   const transaction = createTransactionOnce();
-  const payment = appState.payment || { method: 'cash', amountPaid: transaction.amountPaid, change: transaction.change };
 
   container.innerHTML = [
-    '<div class="success-item"><span class="success-label">Transaction amount</span><span class="success-value">' + formatPeso(transaction.total) + '</span></div>',
-    '<div class="success-item"><span class="success-label">Amount paid</span><span class="success-value">' + formatPeso(payment.amountPaid) + '</span></div>',
-    '<div class="success-item"><span class="success-label">Change</span><span class="success-value">' + formatPeso(payment.change) + '</span></div>',
-    '<div class="success-item"><span class="success-label">Payment method</span><span class="success-value">' + getPaymentMethodLabel(payment.method) + '</span></div>',
-    '<div class="success-item"><span class="success-label">Transaction number</span><span class="success-value">' + transaction.number + '</span></div>'
+    '<div class="success-amount">',
+    '<span class="success-amount-label">Total paid</span>',
+    '<strong class="success-amount-value">' + formatPeso(transaction.total) + '</strong>',
+    '</div>',
+    '<div class="success-details">',
+    detailRowHTML('Transaction #', transaction.number),
+    detailRowHTML('Date &amp; time', formatReceiptDate(transaction.date)),
+    detailRowHTML('Payment method', getPaymentMethodLabel(transaction.paymentMethod)),
+    getPaymentDetailRows(transaction).map(function (row) {
+      return detailRowHTML(row[0], row[1]);
+    }).join(''),
+    '</div>'
   ].join('');
 }
 
@@ -98,35 +137,49 @@ function renderReceiptScreen() {
   if (!container) return;
 
   const transaction = appState.transaction || createTransactionOnce();
-  const receiptDate = new Date(transaction.date).toLocaleString('en-PH', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: '2-digit',
-  });
+  const itemCount = countItems(transaction.items);
 
+  // Each line: name and subtotal on top, "Qty 2 × ₱45.00" underneath.
   const lineItems = transaction.items.map(function (item) {
     return '<li class="receipt-item">' +
-      '<span class="receipt-item-name">' + item.name + ' (' + item.quantity + ' × ' + formatPeso(item.price) + ')</span>' +
-      '<span class="receipt-item-price">' + formatPeso(item.price) + '</span>' +
+      '<div class="receipt-item-main">' +
+      '<span class="receipt-item-name">' + item.name + '</span>' +
       '<span class="receipt-item-subtotal">' + formatPeso(item.subtotal) + '</span>' +
+      '</div>' +
+      '<span class="receipt-item-meta">Qty ' + item.quantity + ' × ' + formatPeso(item.price) + '</span>' +
       '</li>';
   }).join('');
 
-  const paymentMethod = getPaymentMethodLabel(transaction.paymentMethod);
+  const paymentRows = getPaymentDetailRows(transaction).map(function (row) {
+    return detailRowHTML(row[0], row[1]);
+  }).join('');
 
   container.innerHTML = [
-    '<div class="receipt-header">',
-    '<h2>Payment Successful</h2>',
-    '<div class="success-item"><span class="success-label">Receipt #</span><span class="success-value">' + transaction.number + '</span></div>',
-    '<div class="success-item"><span class="success-label">Date</span><span class="success-value">' + receiptDate + '</span></div>',
+    '<header class="receipt-brand">',
+    '<img src="images/favicon.svg" alt="" width="44" height="44">',
+    '<div><strong>Campus Store</strong><span>Self-Service Kiosk</span></div>',
+    '</header>',
+    '<div class="receipt-section receipt-meta">',
+    '<h2 class="receipt-heading">Receipt</h2>',
+    detailRowHTML('Transaction #', transaction.number),
+    detailRowHTML('Date &amp; time', formatReceiptDate(transaction.date)),
     '</div>',
+    '<div class="receipt-section">',
+    '<div class="receipt-columns"><span>Item</span><span>Amount</span></div>',
     '<ul class="receipt-items">' + lineItems + '</ul>',
-    '<div class="receipt-total-row"><span>Total</span><strong>' + formatPeso(transaction.total) + '</strong></div>',
-    '<div class="receipt-total-row"><span>Method</span><span>' + paymentMethod + '</span></div>',
-    '<div class="receipt-total-row"><span>Amount paid</span><span>' + formatPeso(transaction.amountPaid) + '</span></div>',
-    '<div class="receipt-total-row"><span>Change</span><span>' + formatPeso(transaction.change) + '</span></div>'
+    '</div>',
+    '<div class="receipt-section">',
+    detailRowHTML('Subtotal (' + itemCount + (itemCount === 1 ? ' item' : ' items') + ')', formatPeso(transaction.total)),
+    detailRowHTML('Total', formatPeso(transaction.total), 'receipt-total'),
+    '</div>',
+    '<div class="receipt-section">',
+    detailRowHTML('Payment method', getPaymentMethodLabel(transaction.paymentMethod)),
+    paymentRows,
+    '</div>',
+    '<footer class="receipt-footer">',
+    '<span class="receipt-paid-badge">✓ Payment Successful</span>',
+    '<p>Thank you for shopping with Campus Store!</p>',
+    '</footer>'
   ].join('');
 }
 

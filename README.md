@@ -12,7 +12,7 @@ Payment Successful → View Receipt → New Transaction
 
 | Screen | Features | Member |
 |---|---|---|
-| Item Selection | Welcome banner; category filter (All / Drinks / Food / Snacks); six product cards with name, description, price, and large **+ / −** buttons; order panel with item lines, **+ / − / ×** controls, item subtotals, item count, and automatic total; "Product added" / "Removed" / "Invalid quantity" feedback; Proceed disabled while the order is empty | M2 Repollo (A) |
+| Item Selection | Welcome banner; category filter (All / Drinks / Food / Snacks); 16 product cards with name, description, price, and large **+ / −** buttons; order panel with item lines, **+ / − / ×** controls, item subtotals, item count, and automatic total; "Product added" / "Removed" / "Invalid quantity" feedback; Proceed disabled while the order is empty | M2 Repollo (A) |
 | Order Summary | Table of items, unit prices, quantities, subtotals, and total; **Back** keeps the order | M1 Pacia (B) |
 | Payment Method | Three large options: Cash, QR Payment, Credit/Debit Card | M1 Pacia (B) |
 | Cash Payment | On-screen keypad and quick amounts (no typing); rejects blank, invalid, and insufficient amounts with a clear message; exact payment allowed; change computed automatically | M1 Pacia (B) |
@@ -30,7 +30,7 @@ Payment Successful → View Receipt → New Transaction
 | Part | Choice | Why |
 |---|---|---|
 | Front end | HTML, CSS, plain JavaScript (no framework, no build step) | Runs in any browser or full-screen on a touch monitor; easy for every member to read and explain |
-| Product data | Hard-coded list in `js/products.js` | Allowed by the exam; six products do not need a database |
+| Product data | Hard-coded list in `js/products.js` | Allowed by the exam; a 16-item menu does not need a database |
 | Transaction data | In-memory `appState` object (`js/state.js`) | One transaction at a time; cleared by New Transaction |
 | Transaction counter | Browser `localStorage` | Keeps transaction numbers unique after a page reload |
 | Product images | Emoji icons (hard-coded) | No image files to download, license, or load; works offline |

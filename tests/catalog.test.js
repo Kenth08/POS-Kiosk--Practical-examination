@@ -14,7 +14,7 @@ test('filterByCategory("All") returns every product', function () {
 
 test('filterByCategory returns only products in that category', function () {
   const drinks = filterByCategory(PRODUCTS, 'Drinks').map(function (p) { return p.name; });
-  assert.deepStrictEqual(drinks, ['Coffee', 'Soft Drink', 'Bottled Water']);
+  assert.deepStrictEqual(drinks, ['Coffee', 'Soft Drink', 'Bottled Water', 'Milk Tea', 'Fresh Milk', 'Juice Box']);
 });
 
 test('every product has a description for its card', function () {
