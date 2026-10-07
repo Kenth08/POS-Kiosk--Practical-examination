@@ -50,3 +50,4 @@ Record each test when it is actually run. Result: PASS / FAIL (describe the prob
 | 2026-10-07 | Final integration (`050aa5b`) | Instructor test 13: Card | Processing state, button disabled; Back cancels; method Credit/Debit Card; change ₱0 | PASS (AI run) — docs/evidence/card-processing.png | AI; member to re-run |
 | 2026-10-07 | Final integration (`050aa5b`) | Instructor test 14: New Transaction | Empty cart, ₱0, payment/transaction cleared, toast | PASS (AI run) | AI; member to re-run |
 | 2026-10-07 | Final integration (`050aa5b`) | Instructor test 15 + exact cash | TXN-2026-00001 to 00004 all different; exact cash gives ₱0 change | PASS (AI run) | AI; member to re-run |
+| 2026-10-07 | Final re-check (`adcceea`, after PR #5–#8) | All 15 instructor tests + exact cash + `npm test` | Same results as on `050aa5b`; 16 unit tests pass; no page errors | PASS (AI run) | AI; member to re-run |
