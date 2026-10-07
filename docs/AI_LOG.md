@@ -129,3 +129,30 @@ Entry template:
 - Other checks in this pass with no bug found: all 6 products in cart at 1024×768 (total ₱290.00
   correct; cart list scrolls; Proceed stays visible).
 - What we changed and why: _(member to fill after review)_
+
+## AI-5 — Refactoring: cart rendering and duplicated quantity check (Task 7)
+- Date: 2026-10-07
+- Member responsible: Repollo (M2) — Member A, branch `feature/item-selection`
+- Type: refactoring
+- Problem / context: Code review of `js/selection.js` after the feature and bug fix were done.
+- Prompt used: "next" — AI was asked to perform Task 7 (refactoring review) for Member A.
+- Original code (problems):
+  1. `renderProducts()` / `renderCart()` built HTML with long chains such as
+     `'<span class="product-name">' + product.name + '</span>' +` — hard to read and easy to break.
+  2. The 99-per-item limit and its "Invalid quantity" message were written twice
+     (in `addToCart()` and in `changeQuantity()`).
+- AI response / improvement:
+  1. New `productCardHTML(product)` and `cartItemHTML(item)` using template literals
+     (`` `<span class="product-name">${product.name}</span>` ``); `renderProducts()` became one line.
+  2. `addToCart()` now calls `changeQuantity(productId, 1)` for items already in the cart;
+     `changeQuantity()` returns `true`/`false` so `addToCart()` knows whether to show "Product added".
+- Our evaluation: Readability gain is clear. The second change adds a return value to
+  `changeQuantity()`, which is slightly more to explain, but removes duplicated validation.
+  We did NOT change the redraw-everything approach — it is simple and fast enough for 6 products.
+- Behavior verification:
+  - Before refactoring, saved the exact rendered HTML for 3 states (empty cart; ₱175 order;
+    item at 99 with rejected tap). After refactoring, all 3 matched (ignoring whitespace between
+    tags): `identical: [true, true, true]`.
+  - Instructor tests 2–6 still ₱175 / ₱220 / ₱175 / ₱140; − at 1 removes; focus fix still works.
+  - `npm test`: 9 pass, 0 fail.
+- What we changed and why: _(member to fill after review)_
