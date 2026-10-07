@@ -156,3 +156,34 @@ Entry template:
   - Instructor tests 2–6 still ₱175 / ₱220 / ₱175 / ₱140; − at 1 removes; focus fix still works.
   - `npm test`: 9 pass, 0 fail.
 - What we changed and why: _(member to fill after review)_
+
+## AI-6 — UI redesign from a reference design (Item Selection)
+- Date: 2026-10-07
+- Member responsible: Repollo (M2) — Member A, branch `feature/item-selection`
+- Type: generation (UI/styling)
+- Problem / context: The group chose a final visual style: a reference image of a restaurant POS
+  dashboard ("POSPRO": white cards, orange accent, food photos, order panel with thumbnails,
+  order summary).
+- Prompt used: "this is the final UI for this project make this as professional designer or
+  programmer" (with the reference image attached).
+- AI response (summary): Proposed copying the visual style only, and flagged parts of the reference
+  that conflict with the exam. Asked two questions (image source, scope).
+- Our decisions:
+  - Images: AI offered free Unsplash photos (picked 6, checked license, avoided brand logos) and
+    asked permission before downloading. **We declined** and kept the hard-coded emoji icons —
+    no external files, nothing to license or credit, works offline.
+  - Scope: kept kiosk-only. **Not copied:** cashier sidebar (Dashboard/Transactions/Inventory),
+    customer name and table inputs (exam requires minimal typing), service fee and discount
+    (would change totals — instructor tests expect ₱175 / ₱220 / ₱140), `$` currency.
+  - Category tabs from the reference were not added (optional enhancement, not chosen).
+- Code or files produced: `css/styles.css` (new tokens and styles for header, cards, order panel),
+  `index.html` (Order Summary block), `js/selection.js` (category line on cards, thumbnail in cart
+  lines, Items count in summary).
+- Our evaluation: Colors/tokens changed in the shared stylesheet, so Members B and C get the same
+  look automatically if they reuse `.btn`, `.btn-primary`, and the CSS variables.
+  The cart line now looks up the product icon from `PRODUCTS` instead of storing it in the cart,
+  so the shared cart format `{ productId, name, price, quantity }` did not change.
+- Verification / test results: Full-resolution screenshots at 1280×800, 1024×768 and 390×844
+  (saved in `docs/evidence/`). Functional regression: instructor tests 1–6, − at 1, focus fix,
+  99 limit all unchanged; `npm test` 9 pass, 0 fail.
+- What we changed and why: _(member to fill after review)_

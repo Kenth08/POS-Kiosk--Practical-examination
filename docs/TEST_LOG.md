@@ -25,3 +25,5 @@ Record each test when it is actually run. Result: PASS / FAIL (describe the prob
 | 2026-10-07 | Task 6 | Regression: instructor tests 2–6 | ₱175 / ₱220 / ₱175 / ₱140; cart kept after Back | PASS (AI run) | AI; member to re-run |
 | 2026-10-07 | Task 7 | Rendered HTML before vs after refactor (3 states) | Identical | PASS (AI run) | AI; member to re-run |
 | 2026-10-07 | Task 7 | Regression: instructor tests 2–6, − at 1, focus kept, 99 limit | Same results as before refactor | PASS (AI run) | AI; member to re-run |
+| 2026-10-07 | Redesign | Screenshots at 1280×800, 1024×768, 390×844 | Layout fits; no sideways scroll; cart beside products on kiosk sizes | PASS (AI run) — see docs/evidence/ | AI; member to re-check |
+| 2026-10-07 | Redesign | Regression: instructor tests 1–6, − at 1, focus, 99 limit | Same results as before redesign | PASS (AI run) | AI; member to re-run |
