@@ -11,7 +11,26 @@ function formatPeso(centavos) {
   });
 }
 
+// Subtotal = Unit Price × Quantity (both in centavos / whole numbers).
+function calculateSubtotal(price, quantity) {
+  return price * quantity;
+}
+
+// Total Amount = sum of all item subtotals in the cart.
+function calculateTotal(cart) {
+  return cart.reduce(function (sum, item) {
+    return sum + calculateSubtotal(item.price, item.quantity);
+  }, 0);
+}
+
+// Total number of pieces in the cart (Coffee × 2 + Sandwich × 1 = 3 items).
+function countItems(cart) {
+  return cart.reduce(function (sum, item) {
+    return sum + item.quantity;
+  }, 0);
+}
+
 // Lets Node tests load this file; ignored in the browser.
 if (typeof module !== 'undefined') {
-  module.exports = { formatPeso };
+  module.exports = { formatPeso, calculateSubtotal, calculateTotal, countItems };
 }

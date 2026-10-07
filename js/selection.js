@@ -3,12 +3,79 @@
 // Responsibilities: product cards, add item, + / − quantity, remove item,
 // subtotal and total, "Product added" feedback, Proceed to Payment.
 
+const MAX_QUANTITY = 99; // upper limit per item so a stuck tap cannot run away
+
+// ---------- Cart actions (change appState.cart, then redraw) ----------
+
 // Returns the cart line for a product, or undefined if it is not in the cart.
 function findCartItem(productId) {
   return appState.cart.find(function (item) {
     return item.productId === productId;
   });
 }
+
+// Tapping a product card: add it, or add one more if already in the cart.
+function addToCart(productId) {
+  const product = PRODUCTS.find(function (p) { return p.id === productId; });
+  if (!product) {
+    showToast('Invalid product', 'error');
+    return;
+  }
+
+  const existing = findCartItem(productId);
+  if (existing) {
+    if (existing.quantity >= MAX_QUANTITY) {
+      showToast('Invalid quantity — maximum is ' + MAX_QUANTITY, 'error');
+      return;
+    }
+    existing.quantity += 1;
+  } else {
+    appState.cart.push({
+      productId: product.id,
+      name: product.name,
+      price: product.price,
+      quantity: 1,
+    });
+  }
+
+  showToast('Product added — ' + product.name);
+  refreshSelection();
+}
+
+// + / − buttons. delta is +1 or -1.
+// Going below 1 removes the item, so quantity can never become 0 or negative.
+function changeQuantity(productId, delta) {
+  const item = findCartItem(productId);
+  if (!item) return;
+
+  const newQuantity = item.quantity + delta;
+  if (newQuantity < 1) {
+    removeFromCart(productId);
+    return;
+  }
+  if (newQuantity > MAX_QUANTITY) {
+    showToast('Invalid quantity — maximum is ' + MAX_QUANTITY, 'error');
+    return;
+  }
+
+  item.quantity = newQuantity;
+  refreshSelection();
+}
+
+// 🗑 button (or − at quantity 1): take the item out of the cart.
+function removeFromCart(productId) {
+  const item = findCartItem(productId);
+  if (!item) return;
+
+  appState.cart = appState.cart.filter(function (line) {
+    return line.productId !== productId;
+  });
+
+  showToast('Removed — ' + item.name);
+  refreshSelection();
+}
+
+// ---------- Drawing the screen ----------
 
 // Draws one large tappable card per product. A badge shows the quantity
 // already in the cart. (Product data is hard-coded and trusted, so innerHTML is safe here.)
@@ -32,7 +99,7 @@ function renderProducts() {
   }).join('');
 }
 
-// Draws the cart lines, item count, and total.
+// Draws the cart lines, item count, and total, and enables/disables Proceed.
 function renderCart() {
   const list = document.getElementById('cart-items');
 
@@ -42,34 +109,64 @@ function renderCart() {
   } else {
     list.innerHTML = appState.cart.map(function (item) {
       return (
-        '<li class="cart-item">' +
+        '<li class="cart-item" data-product-id="' + item.productId + '">' +
           '<div>' +
             '<div class="cart-item-name">' + item.name + '</div>' +
             '<div class="cart-item-price">' + formatPeso(item.price) + ' each</div>' +
           '</div>' +
-          '<div class="cart-item-subtotal">' + formatPeso(item.price * item.quantity) + '</div>' +
+          '<div class="cart-item-subtotal">' + formatPeso(calculateSubtotal(item.price, item.quantity)) + '</div>' +
           '<div class="qty-controls">' +
-            '<button type="button" class="btn-icon btn-minus" aria-label="Decrease ' + item.name + '">−</button>' +
+            '<button type="button" class="btn-icon btn-minus" data-action="decrease" aria-label="Decrease ' + item.name + '">−</button>' +
             '<span class="qty-value">' + item.quantity + '</span>' +
-            '<button type="button" class="btn-icon btn-plus" aria-label="Increase ' + item.name + '">+</button>' +
-            '<button type="button" class="btn-icon btn-remove" aria-label="Remove ' + item.name + '">🗑</button>' +
+            '<button type="button" class="btn-icon btn-plus" data-action="increase" aria-label="Increase ' + item.name + '">+</button>' +
+            '<button type="button" class="btn-icon btn-remove" data-action="remove" aria-label="Remove ' + item.name + '">🗑</button>' +
           '</div>' +
         '</li>'
       );
     }).join('');
   }
 
-  document.getElementById('cart-count').textContent = '0 items';
-  document.getElementById('cart-total').textContent = formatPeso(0);
+  const itemCount = countItems(appState.cart);
+  document.getElementById('cart-count').textContent = itemCount + (itemCount === 1 ? ' item' : ' items');
+  document.getElementById('cart-total').textContent = formatPeso(calculateTotal(appState.cart));
+  document.getElementById('btn-proceed').disabled = appState.cart.length === 0;
 }
 
 // Redraws everything on the Item Selection screen.
+// Also used by other screens after the cart changes (e.g. New Transaction reset).
 function refreshSelection() {
   renderProducts();
   renderCart();
 }
 
+// ---------- Button handling ----------
+
 // Called once at startup by app.js.
+// One click listener per area ("event delegation"), because the cards and
+// cart lines are re-created every time the screen is redrawn.
 function initSelection() {
+  document.getElementById('product-grid').addEventListener('click', function (event) {
+    const card = event.target.closest('.product-card');
+    if (card) addToCart(card.dataset.productId);
+  });
+
+  document.getElementById('cart-items').addEventListener('click', function (event) {
+    const button = event.target.closest('button[data-action]');
+    if (!button) return;
+
+    const productId = button.closest('.cart-item').dataset.productId;
+    if (button.dataset.action === 'increase') changeQuantity(productId, 1);
+    if (button.dataset.action === 'decrease') changeQuantity(productId, -1);
+    if (button.dataset.action === 'remove') removeFromCart(productId);
+  });
+
+  document.getElementById('btn-proceed').addEventListener('click', function () {
+    if (appState.cart.length === 0) {
+      showToast('Your order is empty. Please add a product first.', 'error');
+      return;
+    }
+    showScreen('summary');
+  });
+
   refreshSelection();
 }
