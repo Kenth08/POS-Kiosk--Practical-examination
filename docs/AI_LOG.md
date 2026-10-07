@@ -266,3 +266,35 @@ Entry template:
   while filtered works; instructor tests 2–6 still ₱175 / ₱220 / ₱175 / ₱140; summary matches; Back
   keeps cart; no page errors. Screenshots in `docs/evidence/`.
 - What we changed and why: _(member to fill after review)_
+
+## AI-10 — Card +/− buttons and order list visibility (user feedback)
+- Date: 2026-10-07
+- Member responsible: Repollo (M2) — Member A, branch `feature/item-selection`
+- Type: generation + bug fix (usability)
+- Problem / context (found by the member while testing, screenshot at 1920×1080):
+  1. Tapping anywhere on a product card added it — easy to add by accident.
+  2. With several products in the order, the order panel only showed ~3 lines; the others were
+     hidden (each line was ~160px tall).
+- Prompt used: "in the pick an item not just click the item just the plus icon and also add a minus
+  icon and in the right side if the user pick many product or food the other pick product are not
+  seen"
+- AI response (summary): Cards became non-clickable containers with a real "+" button; items in the
+  cart show "− qty +" on the card. Cards and order lines now share `handleItemAction()` /
+  `onItemButtonClick()` (one place that maps add / increase / decrease / remove to cart functions).
+  Order lines redesigned as compact two-row lines (~87px). Added `scrollCartItemIntoView()` and
+  `updateCartScrollHint()` (top/bottom fade when lines are hidden).
+- Our evaluation:
+  - Exam says products must be selectable by tapping — still true: the customer taps the "+".
+    The "+" is 48×48px, a comfortable touch size.
+  - The quantity badge on cards was removed because the card now shows the quantity between − and +.
+  - Focus restore needed a change: after tapping "+", that button is replaced by "− 1 +", so the
+    exact button no longer exists. It now tries the same action first, then the card's "+".
+- Verification / test results (headless Edge):
+  - Tapping the card body or name adds nothing; "+" adds; card shows "− 1 +".
+  - Instructor tests 2–4 via card buttons: ₱175 / ₱220 / ₱175; card "−" at 1 removes the item and
+    the card goes back to a single "+".
+  - Order list "+ / − / ×" still work; focus stays on the card after adding (Enter again → qty 2).
+  - All six products added: at 1920×1080 all 6 lines visible (line height 87px), Proceed visible;
+    at 1280×800 the list scrolls to the newest line and shows the top fade.
+  - Summary shows 6 rows, total ₱270.00. `npm test` 15 pass. No page errors.
+- What we changed and why: _(member to fill after review)_

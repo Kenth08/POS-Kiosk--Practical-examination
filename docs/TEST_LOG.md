@@ -37,3 +37,8 @@ Record each test when it is actually run. Result: PASS / FAIL (describe the prob
 | 2026-10-07 | Menu UI | Tap Drinks / Snacks / All | Drinks: Coffee, Soft Drink, Bottled Water; Snacks: Cookies, Chocolate; All: 6 | PASS (AI run) | AI; member to re-run |
 | 2026-10-07 | Menu UI | Filter while Sandwich is in cart | Cart and total ₱175 unchanged | PASS (AI run) | AI; member to re-run |
 | 2026-10-07 | Menu UI | Regression: instructor tests 2–6 | ₱175 / ₱220 / ₱175 / ₱140; summary matches; Back keeps cart | PASS (AI run) | AI; member to re-run |
+| 2026-10-07 | Card buttons | Tap card body / product name | Nothing is added | PASS (AI run) | AI; member to re-run |
+| 2026-10-07 | Card buttons | Tap "+" on Coffee | Added; card shows "− 1 +"; toast "Product added — Coffee" | PASS (AI run) | AI; member to re-run |
+| 2026-10-07 | Card buttons | Card "−" at quantity 1 | Item removed; card shows "+" again | PASS (AI run) | AI; member to re-run |
+| 2026-10-07 | Order list | Add all 6 products at 1920×1080 | All 6 lines visible; Proceed visible | FAIL before (only ~3 visible); PASS after | Member found; AI fixed |
+| 2026-10-07 | Order list | Add all 6 products at 1280×800 | Newest line scrolled into view; fade shows hidden lines | PASS (AI run) | AI; member to re-run |
