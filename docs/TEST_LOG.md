@@ -42,3 +42,11 @@ Record each test when it is actually run. Result: PASS / FAIL (describe the prob
 | 2026-10-07 | Card buttons | Card "−" at quantity 1 | Item removed; card shows "+" again | PASS (AI run) | AI; member to re-run |
 | 2026-10-07 | Order list | Add all 6 products at 1920×1080 | All 6 lines visible; Proceed visible | FAIL before (only ~3 visible); PASS after | Member found; AI fixed |
 | 2026-10-07 | Order list | Add all 6 products at 1280×800 | Newest line scrolled into view; fade shows hidden lines | PASS (AI run) | AI; member to re-run |
+| 2026-10-07 | Final integration (`050aa5b`) | `npm test` | 16 pass (A, B, C helpers) | PASS (AI run) | AI; member to re-run |
+| 2026-10-07 | Final integration (`050aa5b`) | Instructor tests 1–7 | ₱175 / ₱220 / ₱140; summary matches; Back keeps order; 3 methods | PASS (AI run) | AI; member to re-run |
+| 2026-10-07 | Final integration (`050aa5b`) | Instructor test 8: Cash ₱100 for ₱140 | Rejected; stays on Cash; no transaction created | PASS (AI run) | AI; member to re-run |
+| 2026-10-07 | Final integration (`050aa5b`) | Instructor tests 9–11: Cash ₱200 | Change ₱60; success shows amount/paid/change/method/TXN; receipt correct | PASS (AI run) — docs/evidence/success-cash.png, receipt-cash.png | AI; member to re-run |
+| 2026-10-07 | Final integration (`050aa5b`) | Instructor test 12: QR | QR placeholder + confirm; receipt method QR Payment; change ₱0 | PASS (AI run) — docs/evidence/qr-payment.png | AI; member to re-run |
+| 2026-10-07 | Final integration (`050aa5b`) | Instructor test 13: Card | Processing state, button disabled; Back cancels; method Credit/Debit Card; change ₱0 | PASS (AI run) — docs/evidence/card-processing.png | AI; member to re-run |
+| 2026-10-07 | Final integration (`050aa5b`) | Instructor test 14: New Transaction | Empty cart, ₱0, payment/transaction cleared, toast | PASS (AI run) | AI; member to re-run |
+| 2026-10-07 | Final integration (`050aa5b`) | Instructor test 15 + exact cash | TXN-2026-00001 to 00004 all different; exact cash gives ₱0 change | PASS (AI run) | AI; member to re-run |
