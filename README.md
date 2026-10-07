@@ -16,7 +16,7 @@ Payment Successful → View Receipt → New Transaction
 | Order Summary | Table of items, unit prices, quantities, subtotals, and total; **Back** keeps the order | M1 Pacia (B) |
 | Payment Method | Three large options: Cash, QR Payment, Credit/Debit Card | M1 Pacia (B) |
 | Cash Payment | On-screen keypad and quick amounts (no typing); rejects blank, invalid, and insufficient amounts with a clear message; exact payment allowed; change computed automatically | M1 Pacia (B) |
-| QR / Card Payment, Payment Successful, Receipt, New Transaction | Simulated QR confirmation and card processing, unique transaction number, digital receipt, full reset | M3 (C) — _in progress_ |
+| QR / Card Payment, Payment Successful, Receipt, New Transaction | Simulated QR confirmation and card processing (Back cancels), unique transaction number (TXN-YYYY-00001, `localStorage` counter), Payment Successful details, digital receipt, full reset | M3 Guerra (C) |
 
 **Business rules** (all money is stored as whole **centavos** to avoid decimal errors):
 
@@ -70,7 +70,7 @@ npm test
 index.html              all screens (only one is visible at a time)
 css/styles.css          shared design: colors, buttons, and each screen's layout
 js/products.js          product catalog (prices in centavos)
-js/utils.js             pure helpers: formatPeso, subtotal/total, item count, categories, change
+js/utils.js             pure helpers: formatPeso, subtotal/total, item count, categories, change, transaction number
 js/state.js             shared state for the current transaction (cart, payment, transaction)
 js/ui.js                showScreen(), showToast() — shared screen helpers
 js/selection.js         Item Selection and order panel            (Member A)
@@ -94,7 +94,7 @@ docs/                   requirements, AI log, test log, member register, evidenc
 |---|---|---|---|---|
 | M1 | Pacia | kurtpacia-bit | Member B — Order Summary, Payment Method, Cash Payment | `feature/payment-cash` |
 | M2 | Repollo | Kenth08 | Repository owner; project setup; Member A — Item Selection and order panel; shared UI design | `setup/project-skeleton`, `feature/item-selection` |
-| M3 | Guerra | _(to confirm)_ | Member C — QR / Card, Payment Successful, Receipt, New Transaction | _(to add)_ |
+| M3 | Jeff Mico Guerra | jeffmico123 | Member C — QR / Card, Payment Successful, Receipt, New Transaction | `member-c-payment-flow` |
 
 ## AI-assisted development
 
