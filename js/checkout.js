@@ -88,20 +88,18 @@ function formatReceiptDate(isoDate) {
   });
 }
 
-// Payment rows that depend on the method actually used (display only — values come
-// from the saved transaction):
-//   Cash / QR → Amount paid + Change     Card → Amount charged + Card status
+// Payment rows (display only — values come from the saved transaction).
+// Every method shows Amount paid + Change (the exam requires both on the receipt;
+// QR and Card change is ₱0.00). Card also shows its approval status.
 function getPaymentDetailRows(transaction) {
-  if (transaction.paymentMethod === 'card') {
-    return [
-      ['Amount charged', formatPeso(transaction.amountPaid)],
-      ['Card status', 'Approved'],
-    ];
-  }
-  return [
+  const rows = [
     ['Amount paid', formatPeso(transaction.amountPaid)],
     ['Change', formatPeso(transaction.change)],
   ];
+  if (transaction.paymentMethod === 'card') {
+    rows.push(['Card status', 'Approved']);
+  }
+  return rows;
 }
 
 // One "label ........ value" line used on both screens.
