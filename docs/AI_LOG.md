@@ -333,3 +333,67 @@ Entry template:
 - Verification / test results: All three icon links load in the page (HTTP 200, correct types);
   page title "Campus Store POS Kiosk"; `npm test` 16 pass; no page errors.
 - What we changed and why: Kept the AI's logo design; after seeing it in the tab I also asked for it to replace the "CS" badge in the header so the brand matches. [drafted with AI from our session, reviewed by Repollo]
+
+## AI-12 — UI/UX polish of the whole kiosk (same logo and orange palette)
+- Date: 2026-10-07
+- Member responsible: Repollo (M2), branch `feature/ui-polish`
+- Type: generation / refactoring (styling only)
+- Problem / context: The app worked, but the group wanted it to look like a professional self-service
+  kiosk without changing the logo, the orange/peach brand colors, or any app logic.
+- Prompt used (summary): "Redesign and polish the UI of my Campus Store POS kiosk. UI/UX only — do not
+  change backend, payment, product/order logic. Keep the logo and orange/peach palette. Improve the
+  header step indicator, hero banner, category selector, product cards, order sidebar, typography,
+  spacing, and responsiveness; large touch targets, subtle shadows and animations."
+- AI response (summary): Rewrote the top of `css/styles.css` around shared design tokens (spacing
+  scale, radii, shadows, warm neutrals, Inter font with Segoe UI fallback). Stepper became numbered
+  circles with connector lines and check marks for finished steps. Category buttons became one
+  segmented bar (active = solid orange). Product cards got equal heights, a "+ Add" pill, and an
+  orange ring when in the order. The order panel got a header badge, an illustrated empty state,
+  a stepper-style quantity control, a trash-icon remove button, and a tinted summary block with a
+  large total. Markup changes only: stepper `<span>`s in `index.html`, and card / empty-state /
+  remove-button HTML in `js/selection.js` (same `data-action` values, so cart logic is unchanged).
+  Member B / C screens only received matching borders and hover states through the shared CSS.
+- Verification / test results: Full Cash flow (Order → Review → Payment → Success → Receipt) still
+  works; Proceed stays disabled with an empty cart; at 1920×1080 all six order lines fit (101 px
+  each, no scrolling) and all product cards are the same height; no horizontal scroll at 375 px
+  or 768 px; `npm test` 0 fail.
+- Follow-up request: "also add more product its just to small" — added 10 products to
+  `js/products.js` (same fields, same 4 categories): Milk Tea, Fresh Milk, Juice Box, Burger, Hotdog,
+  Spaghetti, Pizza Slice, Donut, Popcorn, Cupcake (16 total). Updated the Drinks filter test in
+  `tests/catalog.test.js` to the new drink list; `npm test` 16 pass. README "six products" → 16.
+- Our evaluation: _(to be written by Repollo after testing)_
+- What we changed and why: _(to be written by Repollo)_ [drafted with AI from our session]
+
+## AI-13 — Professional POS redesign of every screen + method-aware receipt
+- Date: 2026-10-07
+- Member responsible: Repollo (M2), branch `feature/ui-polish` (touches Member B/C screens — needs
+  their review in the PR)
+- Type: generation / refactoring (presentation only)
+- Problem / context: Second design pass so the whole flow (Order → Review → Payment → Receipt) looks
+  like a commercial kiosk, and the success/receipt screens show the right details for Cash, QR and Card.
+- Prompt used (summary): "UI/UX redesign only — keep all functionality, IDs, event handlers, payment
+  logic, calculations and navigation. Clean white surfaces, navy text, orange accent, less pill
+  styling. Redesign header stepper, product cards, cart, review table, payment tiles, cash keypad, QR
+  and card terminals, and a professional receipt that reflects the payment method actually used. Do
+  not invent payment data or features (Print only if it already exists)."
+- AI response (summary):
+  - `css/styles.css` rewritten around shared tokens; every class/id used by JavaScript kept.
+  - Stepper: finished steps show a green check, current step is orange, upcoming steps are gray;
+    `js/ui.js` also sets `aria-current="step"` (no behaviour change).
+  - Payment tiles use line icons (inline SVG in CSS); cash keypad restyled; cash error shown as a
+    red box with an icon (same messages, same validation).
+  - `index.html`: sample QR pattern with the store logo, card-terminal illustration, success check icon.
+  - `js/checkout.js`: only the HTML built by `renderSuccessScreen()` / `renderReceiptScreen()` changed.
+    New helper `getPaymentDetailRows()` picks rows from the saved transaction: Cash and QR → Amount
+    paid + Change; Card → Amount charged + Card status "Approved". No reference number is shown for
+    QR/Card because the app does not create one (only the transaction number). No Print button,
+    because the app has no print feature.
+  - Side effect: the receipt line is now "Name … subtotal / Qty 2 × ₱45.00", which removes the
+    known issue of the unit price being shown twice.
+- Verification / test results (AI run): Cash (₱500 for ₱205 → change ₱295), QR (₱25, change ₱0,
+  method "QR Payment") and Card (button disabled + spinner while processing, then "Credit/Debit
+  Card", amount charged ₱25, status Approved) each produced matching success and receipt screens.
+  Insufficient cash still shows "Insufficient payment…". No horizontal scroll at 375 px on any
+  screen; no console errors; `npm test` 16 pass.
+- Our evaluation: _(to be written by Repollo after testing)_
+- What we changed and why: _(to be written by Repollo)_ [drafted with AI from our session]

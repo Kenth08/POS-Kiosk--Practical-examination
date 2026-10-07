@@ -23,6 +23,9 @@ function updateStepper(currentStep) {
     const step = Number(item.dataset.step);
     item.classList.toggle('done', step < currentStep);
     item.classList.toggle('current', step === currentStep);
+    // Screen readers announce which step is the current one
+    if (step === currentStep) item.setAttribute('aria-current', 'step');
+    else item.removeAttribute('aria-current');
   });
 }
 

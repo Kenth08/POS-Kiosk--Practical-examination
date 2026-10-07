@@ -10,6 +10,10 @@
   <link rel="icon" href="images/favicon-32.png" type="image/png" sizes="32x32">
   <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+  <!-- Inter: modern, highly readable UI font (falls back to Segoe UI / system fonts offline) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -22,11 +26,11 @@
         <div class="brand-tagline">Self-service kiosk</div>
       </div>
     </div>
-    <ol class="stepper" id="stepper">
-      <li data-step="1">1 Order</li>
-      <li data-step="2">2 Review</li>
-      <li data-step="3">3 Payment</li>
-      <li data-step="4">4 Receipt</li>
+    <ol class="stepper" id="stepper" aria-label="Checkout progress">
+      <li data-step="1"><span class="step-num">1</span><span class="step-label">Order</span></li>
+      <li data-step="2"><span class="step-num">2</span><span class="step-label">Review</span></li>
+      <li data-step="3"><span class="step-num">3</span><span class="step-label">Payment</span></li>
+      <li data-step="4"><span class="step-num">4</span><span class="step-label">Receipt</span></li>
     </ol>
   </header>
 
@@ -40,7 +44,7 @@
             <div class="hero-text">
               <span class="hero-badge">🔥 Fresh today</span>
               <h1 class="hero-title">Campus favorites,<br>ready in seconds</h1>
-              <p class="hero-subtitle">Tap <strong>+</strong> on a product to add it to your order.</p>
+              <p class="hero-subtitle">Pick a category, then tap <strong>+ Add</strong> to build your order.</p>
             </div>
             <div class="hero-art" aria-hidden="true">
               <span class="hero-art-main">🥪</span>
@@ -149,8 +153,10 @@
       <h1 class="screen-title">QR Payment</h1>
       <p id="qr-total" class="payment-total">Total due: ₱0.00</p>
       <div class="checkout-panel qr-panel">
-        <div class="qr-box" aria-label="QR payment placeholder">
-          <span>QR</span>
+        <div class="qr-box" role="img" aria-label="QR payment placeholder">
+          <!-- Sample QR pattern (the QR payment is simulated) with the store logo in the middle -->
+          <svg class="qr-code" viewBox="-2 -2 29 29" aria-hidden="true" shape-rendering="crispEdges"><rect x="-2" y="-2" width="29" height="29" fill="#fff"/><path d="M0 0h1v1h-1zM0 1h1v1h-1zM0 2h1v1h-1zM0 3h1v1h-1zM0 4h1v1h-1zM0 5h1v1h-1zM0 6h1v1h-1zM0 9h1v1h-1zM0 10h1v1h-1zM0 11h1v1h-1zM0 14h1v1h-1zM0 18h1v1h-1zM0 19h1v1h-1zM0 20h1v1h-1zM0 21h1v1h-1zM0 22h1v1h-1zM0 23h1v1h-1zM0 24h1v1h-1zM1 0h1v1h-1zM1 6h1v1h-1zM1 8h1v1h-1zM1 11h1v1h-1zM1 12h1v1h-1zM1 13h1v1h-1zM1 14h1v1h-1zM1 15h1v1h-1zM1 16h1v1h-1zM1 18h1v1h-1zM1 24h1v1h-1zM2 0h1v1h-1zM2 2h1v1h-1zM2 3h1v1h-1zM2 4h1v1h-1zM2 6h1v1h-1zM2 8h1v1h-1zM2 9h1v1h-1zM2 14h1v1h-1zM2 16h1v1h-1zM2 18h1v1h-1zM2 20h1v1h-1zM2 21h1v1h-1zM2 22h1v1h-1zM2 24h1v1h-1zM3 0h1v1h-1zM3 2h1v1h-1zM3 3h1v1h-1zM3 4h1v1h-1zM3 6h1v1h-1zM3 8h1v1h-1zM3 9h1v1h-1zM3 12h1v1h-1zM3 13h1v1h-1zM3 16h1v1h-1zM3 18h1v1h-1zM3 20h1v1h-1zM3 21h1v1h-1zM3 22h1v1h-1zM3 24h1v1h-1zM4 0h1v1h-1zM4 2h1v1h-1zM4 3h1v1h-1zM4 4h1v1h-1zM4 6h1v1h-1zM4 11h1v1h-1zM4 18h1v1h-1zM4 20h1v1h-1zM4 21h1v1h-1zM4 22h1v1h-1zM4 24h1v1h-1zM5 0h1v1h-1zM5 6h1v1h-1zM5 9h1v1h-1zM5 14h1v1h-1zM5 15h1v1h-1zM5 16h1v1h-1zM5 18h1v1h-1zM5 24h1v1h-1zM6 0h1v1h-1zM6 1h1v1h-1zM6 2h1v1h-1zM6 3h1v1h-1zM6 4h1v1h-1zM6 5h1v1h-1zM6 6h1v1h-1zM6 9h1v1h-1zM6 14h1v1h-1zM6 16h1v1h-1zM6 18h1v1h-1zM6 19h1v1h-1zM6 20h1v1h-1zM6 21h1v1h-1zM6 22h1v1h-1zM6 23h1v1h-1zM6 24h1v1h-1zM7 8h1v1h-1zM7 10h1v1h-1zM7 12h1v1h-1zM7 14h1v1h-1zM8 2h1v1h-1zM8 4h1v1h-1zM8 5h1v1h-1zM8 6h1v1h-1zM8 9h1v1h-1zM8 13h1v1h-1zM8 16h1v1h-1zM8 17h1v1h-1zM8 18h1v1h-1zM8 22h1v1h-1zM8 24h1v1h-1zM9 4h1v1h-1zM9 7h1v1h-1zM9 8h1v1h-1zM9 17h1v1h-1zM9 18h1v1h-1zM9 20h1v1h-1zM9 21h1v1h-1zM9 22h1v1h-1zM9 23h1v1h-1zM10 2h1v1h-1zM10 3h1v1h-1zM10 4h1v1h-1zM10 6h1v1h-1zM10 16h1v1h-1zM10 17h1v1h-1zM10 18h1v1h-1zM10 19h1v1h-1zM10 20h1v1h-1zM10 23h1v1h-1zM11 0h1v1h-1zM11 1h1v1h-1zM11 5h1v1h-1zM11 6h1v1h-1zM11 7h1v1h-1zM11 8h1v1h-1zM11 18h1v1h-1zM11 20h1v1h-1zM11 21h1v1h-1zM11 22h1v1h-1zM11 23h1v1h-1zM12 1h1v1h-1zM12 2h1v1h-1zM12 4h1v1h-1zM12 8h1v1h-1zM12 20h1v1h-1zM12 21h1v1h-1zM12 24h1v1h-1zM13 0h1v1h-1zM13 4h1v1h-1zM13 6h1v1h-1zM13 8h1v1h-1zM13 16h1v1h-1zM13 17h1v1h-1zM13 18h1v1h-1zM13 19h1v1h-1zM13 20h1v1h-1zM13 21h1v1h-1zM13 22h1v1h-1zM13 23h1v1h-1zM13 24h1v1h-1zM14 3h1v1h-1zM14 6h1v1h-1zM14 16h1v1h-1zM14 18h1v1h-1zM14 20h1v1h-1zM14 24h1v1h-1zM15 3h1v1h-1zM15 4h1v1h-1zM15 6h1v1h-1zM15 7h1v1h-1zM15 8h1v1h-1zM15 17h1v1h-1zM15 18h1v1h-1zM15 20h1v1h-1zM15 21h1v1h-1zM15 22h1v1h-1zM15 23h1v1h-1zM16 2h1v1h-1zM16 14h1v1h-1zM16 15h1v1h-1zM16 17h1v1h-1zM16 19h1v1h-1zM16 22h1v1h-1zM16 23h1v1h-1zM17 10h1v1h-1zM17 17h1v1h-1zM17 18h1v1h-1zM17 20h1v1h-1zM17 22h1v1h-1zM17 23h1v1h-1zM18 0h1v1h-1zM18 1h1v1h-1zM18 2h1v1h-1zM18 3h1v1h-1zM18 4h1v1h-1zM18 5h1v1h-1zM18 6h1v1h-1zM18 8h1v1h-1zM18 9h1v1h-1zM18 10h1v1h-1zM18 13h1v1h-1zM18 15h1v1h-1zM18 17h1v1h-1zM18 18h1v1h-1zM18 20h1v1h-1zM18 21h1v1h-1zM18 23h1v1h-1zM18 24h1v1h-1zM19 0h1v1h-1zM19 6h1v1h-1zM19 8h1v1h-1zM19 9h1v1h-1zM19 15h1v1h-1zM19 16h1v1h-1zM19 17h1v1h-1zM19 19h1v1h-1zM19 20h1v1h-1zM19 21h1v1h-1zM19 22h1v1h-1zM19 23h1v1h-1zM20 0h1v1h-1zM20 2h1v1h-1zM20 3h1v1h-1zM20 4h1v1h-1zM20 6h1v1h-1zM20 8h1v1h-1zM20 13h1v1h-1zM20 14h1v1h-1zM20 15h1v1h-1zM20 17h1v1h-1zM20 19h1v1h-1zM21 0h1v1h-1zM21 2h1v1h-1zM21 3h1v1h-1zM21 4h1v1h-1zM21 6h1v1h-1zM21 9h1v1h-1zM21 11h1v1h-1zM21 12h1v1h-1zM21 14h1v1h-1zM21 15h1v1h-1zM21 16h1v1h-1zM21 18h1v1h-1zM21 22h1v1h-1zM21 23h1v1h-1zM21 24h1v1h-1zM22 0h1v1h-1zM22 2h1v1h-1zM22 3h1v1h-1zM22 4h1v1h-1zM22 6h1v1h-1zM22 8h1v1h-1zM22 10h1v1h-1zM22 13h1v1h-1zM22 14h1v1h-1zM22 16h1v1h-1zM22 22h1v1h-1zM22 24h1v1h-1zM23 0h1v1h-1zM23 6h1v1h-1zM23 9h1v1h-1zM23 10h1v1h-1zM23 11h1v1h-1zM23 12h1v1h-1zM23 14h1v1h-1zM23 15h1v1h-1zM23 19h1v1h-1zM23 23h1v1h-1zM24 0h1v1h-1zM24 1h1v1h-1zM24 2h1v1h-1zM24 3h1v1h-1zM24 4h1v1h-1zM24 5h1v1h-1zM24 6h1v1h-1zM24 9h1v1h-1zM24 11h1v1h-1zM24 12h1v1h-1zM24 13h1v1h-1zM24 15h1v1h-1zM24 16h1v1h-1zM24 17h1v1h-1zM24 19h1v1h-1zM24 20h1v1h-1zM24 21h1v1h-1zM24 22h1v1h-1z" fill="#172033"/></svg>
+          <img class="qr-logo" src="images/favicon.svg" alt="" width="44" height="44">
         </div>
         <p class="checkout-instruction">Scan the QR code using your supported payment application.</p>
       </div>
@@ -165,7 +171,23 @@
       <h1 class="screen-title">Credit / Debit Card</h1>
       <p id="card-total" class="payment-total">Total due: ₱0.00</p>
       <div class="checkout-panel card-panel">
-        <div class="card-icon" aria-hidden="true">💳</div>
+        <!-- Card terminal illustration: card going into the reader, contactless waves -->
+        <div class="card-icon" aria-hidden="true">
+          <svg viewBox="0 0 120 120" width="120" height="120" fill="none">
+            <rect x="34" y="6" width="52" height="34" rx="5" fill="#f26b1d"/>
+            <rect x="34" y="14" width="52" height="7" fill="#b8470a"/>
+            <rect x="40" y="27" width="14" height="5" rx="1.5" fill="#fff" opacity="0.85"/>
+            <rect x="24" y="30" width="72" height="84" rx="12" fill="#172033"/>
+            <rect x="32" y="40" width="56" height="30" rx="5" fill="#2b3550"/>
+            <text x="60" y="61" text-anchor="middle" font-family="Inter, Segoe UI, sans-serif" font-size="15" font-weight="700" fill="#ffb27d">₱</text>
+            <g fill="#4a5470">
+              <rect x="34" y="78" width="14" height="8" rx="2"/><rect x="53" y="78" width="14" height="8" rx="2"/><rect x="72" y="78" width="14" height="8" rx="2"/>
+              <rect x="34" y="91" width="14" height="8" rx="2"/><rect x="53" y="91" width="14" height="8" rx="2"/>
+            </g>
+            <rect x="72" y="91" width="14" height="8" rx="2" fill="#16a34a"/>
+            <path d="M101 52a12 12 0 0 1 0 16M106 46a20 20 0 0 1 0 28" stroke="#f26b1d" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </div>
         <p>Please tap, insert, or swipe your card.</p>
         <p id="card-status" class="processing-status" aria-live="polite"></p>
       </div>
@@ -177,7 +199,12 @@
 
     <!-- Screen 4: Payment Successful (Member C) -->
     <section class="screen" id="screen-success" data-step="4">
+      <!-- Animated check mark shown above the heading -->
+      <div class="success-icon" aria-hidden="true">
+        <svg viewBox="0 0 52 52" width="52" height="52"><path d="M14 27l8 8 16-17" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
       <h1 class="screen-title">Payment Successful</h1>
+      <p class="success-subtitle">Thank you! Your payment has been received.</p>
       <div id="success-content" class="success-card"></div>
       <button class="btn btn-primary" id="success-receipt" type="button">View Receipt</button>
     </section>
