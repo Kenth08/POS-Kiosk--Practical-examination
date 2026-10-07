@@ -30,7 +30,17 @@ function countItems(cart) {
   }, 0);
 }
 
+// Returns change in centavos, or null when either amount is invalid or underpaid.
+function calculateChange(amountPaid, total) {
+  if (!Number.isSafeInteger(amountPaid) || !Number.isSafeInteger(total) ||
+      amountPaid < 0 || total < 0 || amountPaid < total) {
+    return null;
+  }
+
+  return amountPaid - total;
+}
+
 // Lets Node tests load this file; ignored in the browser.
 if (typeof module !== 'undefined') {
-  module.exports = { formatPeso, calculateSubtotal, calculateTotal, countItems };
+  module.exports = { formatPeso, calculateSubtotal, calculateTotal, countItems, calculateChange };
 }

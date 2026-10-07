@@ -42,6 +42,33 @@ Entry template:
 - Verification / test results: Cross-checked the requirement list against exam pages 1–8 and the
   Acceptance Checklist. _(member to confirm)_
 
+## AI-3 — Order summary and cash payment
+- Date: 2026-10-07
+- Member responsible: Member B
+- Type: generation
+- Problem / context: Implement the assigned Order Summary, Payment Method, and Cash Payment
+  screens; follow requirements section 5 and use centavos for money.
+- Prompt used: "You're Member B: Order Summary, Payment Method, Cash Payment. Clone the repo, then
+  create your branch: git switch -c feature/payment-cash → git push -u origin feature/payment-cash
+  Only edit js/payment.js, your 3 sections in index.html (summary, method, cash), and add
+  calculateChange() to js/utils.js with a test. Commit small steps with clear messages. When done,
+  open a PR into main and request my review. Don't merge until I approve. Record every AI prompt you
+  use in docs/AI_LOG.md (prompt, answer, what you changed, how you tested). Read docs/REQUIREMENTS.md
+  section 5 for the cash rules."
+- AI response (summary): Inspected the clean main checkout and section 5, created the feature
+  branch, and implemented the summary, payment methods, keypad/quick amounts, cash validation,
+  centavo-based change calculation, and tests.
+- Code or files produced: `index.html`, `js/payment.js`, `js/utils.js`, `tests/utils.test.js`.
+- Our evaluation: Uses the existing app state and screen helpers; invalid or insufficient cash
+  stays on the payment screen, and exact payment is accepted.
+- What we changed and why: Added the order review table and navigation, payment method choices,
+  on-screen cash keypad and quick amounts, validation messages, and change handoff through
+  `appState.payment` so Member C's success screen can consume a valid payment.
+- Verification / test results: `node --test tests/utils.test.js` passed (5 tests); `node --check`
+  passed for `js/payment.js` and `js/utils.js`; editor diagnostics found no errors. Browser flow
+  check confirmed ₱100 against a ₱140 total stays on cash with an insufficient-payment message,
+  and exact payment advances with `change: 0`.
+
 ## AI-2 — Project skeleton (Task 1)
 - Date: 2026-10-07
 - Member responsible: Repollo (M2)
