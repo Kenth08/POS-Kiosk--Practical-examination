@@ -311,6 +311,9 @@ Entry template:
   accent color with a white smiling shopping bag), rendered PNG copies from it (`favicon-32.png`
   fallback, `apple-touch-icon.png` 180×180 for phone home screens), and linked them in `index.html`
   with a `theme-color` and page `description`.
+- Follow-up request: "also change the logo of the website in the upper left" — the header's round
+  "CS" badge was replaced with the same `favicon.svg` image so the brand is consistent
+  (`docs/evidence/header-logo.png`).
 - Our evaluation: Original artwork (no downloaded or copyrighted images). Shape kept simple so it is
   recognizable at 16 px. Checked on light and dark tab bars (`docs/evidence/logo-preview.png`).
 - Verification / test results: All three icon links load in the page (HTTP 200, correct types);
